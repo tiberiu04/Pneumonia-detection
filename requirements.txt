@@ -1,0 +1,5 @@
+tensorflow>=2.11,<2.16
+numpy<2.0
+opencv-python
+matplotlib
+tqdm
