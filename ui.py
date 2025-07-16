@@ -11,7 +11,6 @@ class PneumoniaApp:
         self.root.title("🩺 Pneumonia Detector")
         self.root.geometry("600x800")
 
-        # 💻 HEADER „ca pe site”
         header_frame = ttk.Frame(root, bootstyle=PRIMARY, padding=20)
         header_frame.pack(fill=X)
 
@@ -23,7 +22,6 @@ class PneumoniaApp:
         )
         header_label.pack()
 
-        # 📝 SUBHEADER
         subheader = ttk.Label(
             root,
             text="Radiologist-level Pneumonia Detection\nfrom Chest X-rays using Deep Learning",
@@ -33,14 +31,12 @@ class PneumoniaApp:
         )
         subheader.pack(pady=20)
 
-        # 📷 IMAGE FRAME
         self.image_frame = ttk.Frame(root, padding=10, bootstyle=LIGHT)
         self.image_frame.pack(pady=20)
 
         self.panel = ttk.Label(self.image_frame)
         self.panel.pack()
 
-        # 📁 SELECT BUTTON
         self.button = ttk.Button(
             root,
             text="📷 Select Image",
@@ -50,7 +46,6 @@ class PneumoniaApp:
         )
         self.button.pack(pady=20)
 
-        # 📊 RESULT LABEL
         self.result_label = ttk.Label(
             root,
             text="",
@@ -60,7 +55,6 @@ class PneumoniaApp:
         )
         self.result_label.pack(pady=30)
 
-        # 📄 FOOTER
         footer = ttk.Label(
             root,
             text="Created with ❤️ using Deep Learning & Tkinter",
@@ -75,14 +69,12 @@ class PneumoniaApp:
             filetypes=[("Image files", "*.jpg *.jpeg *.png")]
         )
         if path:
-            # display image
             img = Image.open(path)
             img.thumbnail((500, 500))
             img_tk = ImageTk.PhotoImage(img)
             self.panel.config(image=img_tk)
             self.panel.image = img_tk
 
-            # predict & capture output
             from io import StringIO
             import sys
 
@@ -96,7 +88,6 @@ class PneumoniaApp:
 
             result = mystdout.getvalue().strip()
 
-            # colorize result
             if "PNEUMONIA" in result:
                 color = "danger"
             elif "NORMAL" in result:
@@ -108,6 +99,6 @@ class PneumoniaApp:
 
 
 if __name__ == "__main__":
-    app = ttk.Window(themename="cosmo")  # sau flatly, minty, etc.
+    app = ttk.Window(themename="cosmo")
     PneumoniaApp(app)
     app.mainloop()

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Settings - Pneumonia Detector{% endblock %}
+{% block content %}
+
+<div class="content px-4">
+  <h1 class="display-5 mb-4 text-primary text-center">⚙️ Settings</h1>
+  <p class="lead text-center mb-5">
+    Personalize your experience and learn more about the AI powering the predictions.
+  </p>
+
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card p-3 shadow-sm border mb-4 border-info">
+        <h5 class="text-info">🌗 Theme</h5>
+        <p>Switch between Light & Dark mode for a comfortable experience.</p>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="themeToggle">
+          <label class="form-check-label" for="themeToggle">Enable Dark Mode</label>
+        </div>
+      </div>
+
+      <div class="card p-3 shadow-sm border mb-4 border-warning">
+        <h5 class="text-warning">🤖 AI Model Info</h5>
+        <p>Details about the AI model powering this application:</p>
+        <ul>
+          <li>Type: Convolutional Neural Network (CNN)</li>
+          <li>Accuracy: ~92%</li>
+          <li>Trained on: Chest X-ray dataset (over 5000 images)</li>
+          <li>Last updated: June 2025</li>
+        </ul>
+
+        <div class="progress mt-3">
+          <div class="progress-bar bg-success" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92% Accuracy</div>
+        </div>
+      </div>
+
+      <div class="card p-3 shadow-sm border mb-4 border-primary">
+        <h5 class="text-primary">📄 About & Contact</h5>
+        <p>This application was built to demonstrate how AI can assist in detecting pneumonia from chest X-rays. For questions or suggestions, feel free to reach out.</p>
+        <p><strong>Version:</strong> 1.0.0</p>
+        <a href="mailto:support@example.com" class="btn btn-sm btn-outline-primary">✉️ Contact Us</a>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-primary px-4">💾 Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById("themeToggle");
+  themeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("bg-dark", themeToggle.checked);
+    document.body.classList.toggle("text-white", themeToggle.checked);
+  });
+});
+</script>
+
+{% endblock %}
