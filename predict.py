@@ -23,7 +23,7 @@ def predict(image_path):
     img = np.expand_dims(img, axis=0)
 
     # predicting the class using the model
-    pred = model.predict(img, verbose=0)[0][0]  # 🔷 fără progress bar
+    pred = model.predict(img, verbose=0)[0][0]
     if pred > 0.5:
         return f"PNEUMONIA ({pred:.2f})"
     else:

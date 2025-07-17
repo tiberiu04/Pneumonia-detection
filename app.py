@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
+import smtplib
+from email.message import EmailMessage
 from keras.models import load_model
 import numpy as np
 import cv2
 import os
 
 app = Flask(__name__)
+app.secret_key = "supersecret"
 UPLOAD_FOLDER = 'static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -41,7 +44,6 @@ def predictions():
             result = predict_image(path)
             uploaded_image = path
     return render_template("predictions.html", result=result, uploaded_image=uploaded_image)
-
 
 @app.route("/settings")
 def settings():

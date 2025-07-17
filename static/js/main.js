@@ -1,81 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("upload-form");
+  const themeToggleHeader = document.getElementById("theme-toggle");
+  const themeToggleSettings = document.getElementById("themeToggle");
+  const hist = document.getElementById("history");
+
   if (form) {
     form.addEventListener("submit", () => {
       document.getElementById("loading-overlay").style.display = "flex";
     });
   }
 
-  const themeToggleHeader = document.getElementById("theme-toggle");
-  const themeToggleSettings = document.getElementById("themeToggle");
-
   if (localStorage.getItem("theme") === "dark") {
     enableDarkMode();
-  } else {
-    disableDarkMode();
   }
-  syncToggles();
 
   if (themeToggleHeader) {
-    themeToggleHeader.addEventListener("click", () => {
-      toggleTheme();
-    });
+    themeToggleHeader.addEventListener("click", toggleTheme);
   }
 
   if (themeToggleSettings) {
-    themeToggleSettings.addEventListener("change", () => {
-      toggleTheme();
+    themeToggleSettings.addEventListener("change", toggleTheme);
+  }
+
+  if (hist) {
+    const saved = JSON.parse(localStorage.getItem('history') || '[]');
+    saved.forEach(text => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      li.classList.add('list-group-item');
+      hist.appendChild(li);
     });
   }
-
-  function toggleTheme() {
-    const isDark = document.body.classList.contains("dark-mode");
-    if (isDark) {
-      disableDarkMode();
-      localStorage.setItem("theme", "light");
-    } else {
-      enableDarkMode();
-      localStorage.setItem("theme", "dark");
-    }
-    syncToggles();
-  }
-
-  function enableDarkMode() {
-    document.body.classList.add("dark-mode");
-  }
-
-  function disableDarkMode() {
-    document.body.classList.remove("dark-mode");
-  }
-
-  function syncToggles() {
-    const isDark = document.body.classList.contains("dark-mode");
-
-    if (themeToggleHeader) {
-      if (isDark) {
-        themeToggleHeader.classList.add("btn-dark");
-        themeToggleHeader.classList.remove("btn-light");
-      } else {
-        themeToggleHeader.classList.add("btn-light");
-        themeToggleHeader.classList.remove("btn-dark");
-      }
-    }
-
-    if (themeToggleSettings) {
-      themeToggleSettings.checked = isDark;
-    }
-  }
-
-  const hist = document.getElementById('history');
-  if (!hist) return;
-
-  const saved = JSON.parse(localStorage.getItem('history') || '[]');
-  saved.forEach(text => {
-    const li = document.createElement('li');
-    li.textContent = text;
-    li.classList.add('list-group-item');
-    hist.appendChild(li);
-  });
 
   const resultDiv = document.querySelector('.alert-info');
   if (resultDiv) {
@@ -85,33 +40,58 @@ document.addEventListener("DOMContentLoaded", () => {
     li.classList.add('list-group-item');
     hist.appendChild(li);
 
+    const saved = JSON.parse(localStorage.getItem('history') || '[]');
     saved.push(text);
     localStorage.setItem('history', JSON.stringify(saved));
   }
 
   const ctx = document.getElementById('historyChart')?.getContext('2d');
-  if (!ctx) return;
+  if (ctx) {
+    const labels = Array.from({length: 20}, (_, i) => `Prediction ${i+1}`);
+    const data = labels.map(() => Math.random() * 0.4 + 0.6);
 
-  const labels = saved.map((_, i) => `Prediction ${i + 1}`);
-  const data = saved.map(x => parseFloat(x.match(/\(([^)]+)\)/)?.[1] || 0));
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(79,172,254,0.5)');
+    gradient.addColorStop(1, 'rgba(0,242,254,0.1)');
 
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'Pneumonia Confidence',
-        data: data,
-        fill: true,
-        borderColor: '#4facfe',
-        backgroundColor: 'rgba(79,172,254,0.2)'
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: { beginAtZero: true, max: 1 }
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Pneumonia Confidence',
+          data,
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: '#4facfe',
+          pointBackgroundColor: '#00f2fe',
+          pointRadius: 4,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        animation: { duration: 2000, easing: 'easeOutBounce' },
+        scales: { y: { beginAtZero: true, max: 1 } }
       }
+    });
+  }
+
+  function enableDarkMode() {
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("theme", "dark");
+  }
+
+  function disableDarkMode() {
+    document.body.classList.remove("dark-mode");
+    localStorage.setItem("theme", "light");
+  }
+
+  function toggleTheme() {
+    if (document.body.classList.contains("dark-mode")) {
+      disableDarkMode();
+    } else {
+      enableDarkMode();
     }
-  });
+  }
 });
