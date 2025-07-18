@@ -1,37 +1,481 @@
 {% extends "base.html" %}
-{% block title %}Predictions - Pneumonia Detector{% endblock %}
+{% block title %}AI Analysis - Pneumonia Detection{% endblock %}
 {% block content %}
-<div class="row">
-  <div class="col-lg-6">
-    <div class="card p-4">
-      <h4>Upload X-ray Image</h4>
-      <form id="upload-form" action="{{ url_for('predictions') }}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" class="form-control mb-3" required>
-        <button type="submit" class="btn btn-primary w-100">Detect</button>
 
-        {% if uploaded_image %}
-        <div class="mt-3">
-            <img src="{{ url_for('static', filename='uploads/' + uploaded_image.split('/')[-1]) }}" 
-                alt="Uploaded X-ray" 
-                class="img-fluid animate__animated animate__fadeIn mt-3">
+<div class="content px-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      
+      <!-- Header -->
+      <div class="analysis-header text-center mb-5">
+        <h2 class="display-5 mb-3">
+          🩺 AI-Powered Chest X-Ray Analysis
+        </h2>
+        <p class="lead text-muted">
+          Upload your chest X-ray image for instant pneumonia detection
+        </p>
+      </div>
+
+      <!-- Upload Section -->
+      <div class="upload-section mb-5">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+              <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📷</div>
+                <h5 class="mb-3">Upload Chest X-Ray Image</h5>
+                <p class="text-muted mb-4">
+                  Drag and drop your X-ray image here or click to browse
+                </p>
+                <input type="file" name="image" id="imageInput" accept=".png,.jpg,.jpeg" required>
+                <div class="file-requirements mt-3">
+                  <small class="text-muted">
+                    <strong>Supported formats:</strong> PNG, JPG, JPEG • <strong>Max size:</strong> 16MB
+                  </small>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                  <span class="btn-text">🔍 Analyze Image</span>
+                  <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-        {% endif %}
+      </div>
 
-        {% if result %}
-            <div class="alert alert-info mt-3 fs-4 fw-bold animate__animated animate__pulse animate__infinite">
-            {{ result }}
+      <!-- Progress Bar -->
+      <div class="progress-section d-none mb-4" id="progressSection">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h6 class="mb-3">🧠 AI Processing Your Image...</h6>
+            <div class="progress mb-3" style="height: 8px;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                   role="progressbar" style="width: 0%"></div>
             </div>
-        {% endif %}
-        </form>
-    </div>
-  </div>
+            <div class="processing-steps">
+              <div class="step active">📤 Uploading image</div>
+              <div class="step">🔍 Preprocessing</div>
+              <div class="step">🧠 AI Analysis</div>
+              <div class="step">📊 Generating results</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="col-lg-6">
-    <div class="card p-4">
-      <h4>Prediction History</h4>
-      <canvas id="historyChart" style="max-height: 300px;"></canvas>
-      <ul id="history" class="list-group mt-3"></ul>
+      <!-- Results Section -->
+      {% if result %}
+      <div class="results-section mb-5" id="resultsSection">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="mb-4">
+              <i class="fas fa-chart-line"></i> Analysis Results
+            </h4>
+            
+            <div class="row">
+              <!-- Image Display -->
+              <div class="col-md-6 mb-4">
+                <div class="image-container">
+                  <img src="{{ url_for('static', filename=uploaded_image.replace('static/', '')) }}" 
+                       class="img-fluid rounded shadow-sm" 
+                       alt="Uploaded X-ray">
+                  <div class="image-overlay">
+                    <small class="text-white">Analyzed Image</small>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Results Display -->
+              <div class="col-md-6">
+                <div class="result-card {% if result.prediction == 'PNEUMONIA' %}pneumonia-result{% else %}normal-result{% endif %}">
+                  <div class="result-icon">
+                    {% if result.prediction == 'PNEUMONIA' %}
+                      ⚠️
+                    {% else %}
+                      ✅
+                    {% endif %}
+                  </div>
+                  <h3 class="result-title">{{ result.prediction }}</h3>
+                  <div class="confidence-section">
+                    <h6>Confidence Score</h6>
+                    <div class="confidence-bar">
+                      <div class="confidence-fill" style="width: {{ (result.confidence * 100)|round(1) }}%"></div>
+                    </div>
+                    <div class="confidence-text">{{ (result.confidence * 100)|round(1) }}%</div>
+                  </div>
+                  
+                  <div class="metrics-row mt-4">
+                    <div class="metric">
+                      <div class="metric-value">{{ "%.3f"|format(result.processing_time) }}s</div>
+                      <div class="metric-label">Processing Time</div>
+                    </div>
+                    <div class="metric">
+                      <div class="metric-value">v1.0</div>
+                      <div class="metric-label">Model Version</div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Interpretation -->
+                <div class="interpretation-card mt-4">
+                  <h6>🔬 Clinical Interpretation</h6>
+                  {% if result.prediction == 'PNEUMONIA' %}
+                    <p class="text-warning">
+                      <strong>Potential pneumonia detected.</strong> The AI model has identified patterns 
+                      consistent with pneumonia in the chest X-ray. Please consult with a healthcare 
+                      professional for proper diagnosis and treatment.
+                    </p>
+                  {% else %}
+                    <p class="text-success">
+                      <strong>No pneumonia detected.</strong> The AI model did not identify significant 
+                      patterns associated with pneumonia. However, this should not replace professional 
+                      medical evaluation.
+                    </p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Instructions -->
+      <div class="instructions-section">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="mb-3">📋 Instructions for Best Results</h5>
+            <div class="row">
+              <div class="col-md-6">
+                <h6 class="text-primary">✅ Image Requirements:</h6>
+                <ul class="list-unstyled">
+                  <li>• Clear, high-quality chest X-ray</li>
+                  <li>• Frontal view (PA or AP)</li>
+                  <li>• Proper exposure and contrast</li>
+                  <li>• Minimal artifacts or obstructions</li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <h6 class="text-primary">⚠️ Important Notes:</h6>
+                <ul class="list-unstyled">
+                  <li>• This is an AI screening tool</li>
+                  <li>• Always consult healthcare professionals</li>
+                  <li>• Results are for educational purposes</li>
+                  <li>• Not a replacement for medical diagnosis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons text-center mt-4">
+        <a href="{{ url_for('predictions') }}" class="btn btn-outline-primary me-3">
+          🔄 Analyze Another Image
+        </a>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">
+          🏠 Back to Home
+        </a>
+      </div>
+
     </div>
   </div>
 </div>
+
+<style>
+.analysis-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.upload-area {
+  border: 2px dashed #667eea;
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: #f8f9ff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.upload-area:hover {
+  border-color: #5a67d8;
+  background: #f0f4ff;
+}
+
+.upload-area.drag-over {
+  border-color: #4c51bf;
+  background: #e6fffa;
+}
+
+.upload-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+#imageInput {
+  display: none;
+}
+
+.file-requirements {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.processing-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.processing-steps .step {
+  font-size: 0.9rem;
+  color: #6c757d;
+  opacity: 0.6;
+}
+
+.processing-steps .step.active {
+  color: #667eea;
+  opacity: 1;
+  font-weight: 600;
+}
+
+.image-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  padding: 1rem;
+}
+
+.result-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.result-card.pneumonia-result {
+  border-left: 5px solid #dc3545;
+}
+
+.result-card.normal-result {
+  border-left: 5px solid #28a745;
+}
+
+.result-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.result-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.pneumonia-result .result-title {
+  color: #dc3545;
+}
+
+.normal-result .result-title {
+  color: #28a745;
+}
+
+.confidence-section {
+  margin-bottom: 2rem;
+}
+
+.confidence-bar {
+  width: 100%;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.8s ease;
+}
+
+.confidence-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.metrics-row {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.interpretation-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 4px solid #667eea;
+}
+
+.btn-lg {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 25px;
+}
+
+@media (max-width: 768px) {
+  .processing-steps {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .metrics-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .analysis-header {
+    padding: 2rem 1rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const uploadArea = document.getElementById('uploadArea');
+  const imageInput = document.getElementById('imageInput');
+  const uploadForm = document.getElementById('uploadForm');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const progressSection = document.getElementById('progressSection');
+
+  // Click to upload
+  uploadArea.addEventListener('click', () => {
+    imageInput.click();
+  });
+
+  // Drag and drop functionality
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('drag-over');
+  });
+
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('drag-over');
+  });
+
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('drag-over');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      imageInput.files = files;
+      updateUploadArea(files[0]);
+    }
+  });
+
+  // File selection
+  imageInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      updateUploadArea(e.target.files[0]);
+    }
+  });
+
+  function updateUploadArea(file) {
+    const uploadIcon = uploadArea.querySelector('.upload-icon');
+    const uploadText = uploadArea.querySelector('h5');
+    
+    uploadIcon.textContent = '📁';
+    uploadText.textContent = `Selected: ${file.name}`;
+  }
+
+  // Form submission with progress
+  uploadForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    if (!imageInput.files.length) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Show progress
+    progressSection.classList.remove('d-none');
+    analyzeBtn.disabled = true;
+    analyzeBtn.querySelector('.btn-text').textContent = 'Processing...';
+    analyzeBtn.querySelector('.spinner-border').classList.remove('d-none');
+
+    // Simulate progress
+    simulateProgress();
+
+    // Submit form
+    setTimeout(() => {
+      uploadForm.submit();
+    }, 1000);
+  });
+
+  function simulateProgress() {
+    const progressBar = document.querySelector('.progress-bar');
+    const steps = document.querySelectorAll('.processing-steps .step');
+    let progress = 0;
+    let currentStep = 0;
+
+    const interval = setInterval(() => {
+      progress += Math.random() * 15;
+      if (progress > 100) progress = 100;
+      
+      progressBar.style.width = progress + '%';
+      
+      // Update active step
+      if (progress > 25 && currentStep < 1) {
+        steps[currentStep].classList.remove('active');
+        steps[++currentStep].classList.add('active');
+      } else if (progress > 60 && currentStep < 2) {
+        steps[currentStep].classList.remove('active');
+        steps[++currentStep].classList.add('active');
+      } else if (progress > 85 && currentStep < 3) {
+        steps[currentStep].classList.remove('active');
+        steps[++currentStep].classList.add('active');
+      }
+      
+      if (progress >= 100) {
+        clearInterval(interval);
+      }
+    }, 100);
+  }
+});
+</script>
+
 {% endblock %}

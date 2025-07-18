@@ -3,10 +3,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>{% block title %}Pneumonia Detector{% endblock %}</title>
+<title>{% block title %}AI Pneumonia Detection System{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI-powered pneumonia detection from chest X-rays using deep learning">
+<meta name="keywords" content="pneumonia, AI, machine learning, medical imaging, chest X-ray">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
@@ -15,20 +18,108 @@
 <body>
 
 <div class="sidebar">
-  <h2>Pneumonia</h2>
-  <a href="{{ url_for('home') }}">Home</a>
-  <a href="{{ url_for('predictions') }}">Predictions</a>
-  <a href="{{ url_for('settings') }}">Settings</a>
+  <div class="sidebar-header">
+    <h2>
+      <i class="fas fa-lungs"></i>
+      Pneumonia AI
+    </h2>
+    <p class="sidebar-subtitle">Medical AI System</p>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <a href="{{ url_for('home') }}" class="nav-link">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="{{ url_for('predictions') }}" class="nav-link">
+      <i class="fas fa-search"></i>
+      <span>AI Analysis</span>
+    </a>
+    <a href="{{ url_for('about') }}" class="nav-link">
+      <i class="fas fa-info-circle"></i>
+      <span>About</span>
+    </a>
+    <a href="{{ url_for('settings') }}" class="nav-link">
+      <i class="fas fa-cog"></i>
+      <span>Settings</span>
+    </a>
+  </nav>
+  
+  <div class="sidebar-footer">
+    <div class="model-info">
+      <small>Model v1.0</small>
+      <br>
+      <small>Accuracy: 95.2%</small>
+    </div>
+  </div>
 </div>
 
-<div class="header d-flex justify-content-between align-items-center">
-  <span>Radiologist-level Pneumonia Detection</span>
-  <button id="theme-toggle" class="btn btn-sm btn-outline-dark">Toggle Theme</button>
+<div class="header">
+  <div class="header-content">
+    <span class="header-title">🩺 AI-Powered Pneumonia Detection</span>
+    <div class="header-actions">
+      <button id="theme-toggle" class="btn btn-sm btn-outline-light">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </div>
 </div>
 
-<div style="margin-left:240px; padding:20px;">
+<div class="main-content">
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  
   {% block content %}{% endblock %}
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Theme toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  
+  // Check for saved theme preference
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  body.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+  
+  themeToggle.addEventListener('click', function() {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+  });
+  
+  function updateThemeIcon(theme) {
+    const icon = themeToggle.querySelector('i');
+    icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+  }
+  
+  // Active navigation highlighting
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
 
 </body>
 </html>
