@@ -209,14 +209,20 @@
             </h4>
             <div class="row">
               <div class="col-md-6">
-                <h6>Export Data</h6>
-                <p class="text-muted">Download your analysis history and settings</p>
-                <button class="btn btn-outline-primary me-2" onclick="exportData('json')">
+                <h6>Export Prediction History</h6>
+                <p class="text-muted">Download your complete analysis history with remedies</p>
+                <a href="/api/predictions/export/json" class="btn btn-outline-primary me-2" download>
                   <i class="fas fa-file-code"></i> Export as JSON
-                </button>
-                <button class="btn btn-outline-primary" onclick="exportData('csv')">
+                </a>
+                <a href="/api/predictions/export/csv" class="btn btn-outline-primary" download>
                   <i class="fas fa-file-csv"></i> Export as CSV
-                </button>
+                </a>
+                <div class="mt-2">
+                  <small class="text-muted">
+                    <i class="fas fa-info-circle"></i> 
+                    Includes timestamps, predictions, confidence scores, and natural remedies
+                  </small>
+                </div>
               </div>
               <div class="col-md-6">
                 <h6>System Reset</h6>

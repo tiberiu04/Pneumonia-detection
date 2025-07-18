@@ -61,14 +61,15 @@ MODEL_METRICS = {
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def log_prediction(image_path, prediction, confidence, processing_time):
+def log_prediction(image_path, prediction, confidence, processing_time, remedies=None):
     log_entry = {
         'timestamp': datetime.now().isoformat(),
         'image_path': image_path,
         'prediction': prediction,
         'confidence': confidence,
         'processing_time': processing_time,
-        'model_version': '1.0'
+        'model_version': '1.0',
+        'remedies': remedies
     }
     
     try:
@@ -178,7 +179,7 @@ def predict_image(image_path):
         remedies = get_natural_remedies(result, confidence)
         
         # Log prediction
-        log_prediction(image_path, result, confidence, processing_time)
+        log_prediction(image_path, result, confidence, processing_time, remedies)
         
         return {
             'prediction': result,
@@ -250,7 +251,8 @@ def predictions():
                 result = {
                     'prediction': prediction_result['prediction'],
                     'confidence': prediction_result['confidence'],
-                    'processing_time': prediction_result['processing_time']
+                    'processing_time': prediction_result['processing_time'],
+                    'remedies': prediction_result['remedies']
                 }
                 uploaded_image = filepath
                 
@@ -326,9 +328,116 @@ def get_metrics():
     """Get model performance metrics"""
     return jsonify(MODEL_METRICS)
 
+@app.route("/api/predictions/export/<format>")
+def export_predictions(format):
+    """Export prediction history in JSON or CSV format"""
+    try:
+        predictions = []
+        
+        # Read predictions from log file
+        if os.path.exists('static/logs/predictions.json'):
+            with open('static/logs/predictions.json', 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            predictions.append(json.loads(line.strip()))
+                        except json.JSONDecodeError:
+                            continue
+        
+        if format.lower() == 'json':
+            from flask import make_response
+            response = make_response(json.dumps(predictions, indent=2))
+            response.headers['Content-Type'] = 'application/json'
+            response.headers['Content-Disposition'] = f'attachment; filename=predictions_history_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
+            return response
+            
+        elif format.lower() == 'csv':
+            import csv
+            import io
+            from flask import make_response
+            
+            output = io.StringIO()
+            if predictions:
+                # Flatten the data for CSV
+                flattened_predictions = []
+                for pred in predictions:
+                    flattened = {
+                        'timestamp': pred.get('timestamp', ''),
+                        'image_path': pred.get('image_path', ''),
+                        'prediction': pred.get('prediction', ''),
+                        'confidence': pred.get('confidence', ''),
+                        'processing_time': pred.get('processing_time', ''),
+                        'model_version': pred.get('model_version', ''),
+                        'remedies_severity': pred.get('remedies', {}).get('severity', '') if pred.get('remedies') else '',
+                        'remedies_message': pred.get('remedies', {}).get('message', '') if pred.get('remedies') else '',
+                        'remedies_count': len(pred.get('remedies', {}).get('remedies', [])) if pred.get('remedies') else 0
+                    }
+                    flattened_predictions.append(flattened)
+                
+                fieldnames = flattened_predictions[0].keys()
+                writer = csv.DictWriter(output, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(flattened_predictions)
+            
+            response = make_response(output.getvalue())
+            response.headers['Content-Type'] = 'text/csv'
+            response.headers['Content-Disposition'] = f'attachment; filename=predictions_history_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            return response
+            
+        else:
+            return jsonify({'error': 'Invalid format. Use json or csv'}), 400
+            
+    except Exception as e:
+        logger.error(f"Export error: {str(e)}")
+        return jsonify({'error': 'Failed to export predictions'}), 500
+
+@app.route("/api/predictions/history")
+def get_prediction_history():
+    """Get prediction history with pagination"""
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        
+        predictions = []
+        
+        # Read predictions from log file
+        if os.path.exists('static/logs/predictions.json'):
+            with open('static/logs/predictions.json', 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            predictions.append(json.loads(line.strip()))
+                        except json.JSONDecodeError:
+                            continue
+        
+        # Sort by timestamp (newest first)
+        predictions.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+        
+        # Pagination
+        start = (page - 1) * per_page
+        end = start + per_page
+        paginated_predictions = predictions[start:end]
+        
+        return jsonify({
+            'predictions': paginated_predictions,
+            'total': len(predictions),
+            'page': page,
+            'per_page': per_page,
+            'total_pages': (len(predictions) + per_page - 1) // per_page
+        })
+        
+    except Exception as e:
+        logger.error(f"History error: {str(e)}")
+        return jsonify({'error': 'Failed to get prediction history'}), 500
+
 @app.route("/settings")
 def settings():
     return render_template("settings.html", metrics=MODEL_METRICS)
+
+@app.route("/history")
+def history():
+    """Display prediction history page"""
+    return render_template("history.html", metrics=MODEL_METRICS)
 
 @app.route("/about")
 def about():
