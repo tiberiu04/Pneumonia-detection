@@ -136,7 +136,7 @@
                 </div>
 
                 <!-- Natural Remedies -->
-                {% if result.remedies %}
+                {% if result.remedies and settings.enableNaturalRemedies %}
                 <div class="remedies-card mt-4">
                   <h6>🌿 Natural Health Recommendations</h6>
                   <div class="remedy-severity severity-{{ result.remedies.severity }}">

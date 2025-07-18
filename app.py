@@ -95,6 +95,7 @@ class SettingsManager:
             'enableAutoDelete': True,
             'enableAnalytics': False,
             'enableSessionLogging': False,
+            'enableNaturalRemedies': True,
             'email': '',
             'confidenceThreshold': 0.5
         }
