@@ -139,6 +139,13 @@
                     Email notifications for analysis completion
                   </label>
                 </div>
+                <div class="email-settings" id="emailSettings" style="display: none;">
+                  <div class="mb-3">
+                    <label for="emailAddress" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="emailAddress" placeholder="Enter your email">
+                    <small class="form-text text-muted">We'll send analysis results to this email</small>
+                  </div>
+                </div>
               </div>
               <div class="col-md-6">
                 <div class="form-check mb-3">
@@ -527,11 +534,11 @@ document.addEventListener('DOMContentLoaded', function() {
     confidenceValue.textContent = value + '%';
   });
   
-  // Save settings to localStorage
+  // Save settings to backend
   function saveSettings() {
     const settings = {
       theme: document.body.getAttribute('data-theme'),
-      confidenceThreshold: confidenceSlider.value,
+      confidenceThreshold: parseFloat(confidenceSlider.value),
       enableDetailedAnalysis: document.getElementById('enableDetailedAnalysis').checked,
       enableNaturalRemedies: document.getElementById('enableNaturalRemedies').checked,
       enableSoundAlerts: document.getElementById('enableSoundAlerts').checked,
@@ -541,36 +548,139 @@ document.addEventListener('DOMContentLoaded', function() {
       enableDataEncryption: document.getElementById('enableDataEncryption').checked,
       enableAutoDelete: document.getElementById('enableAutoDelete').checked,
       enableAnalytics: document.getElementById('enableAnalytics').checked,
-      enableSessionLogging: document.getElementById('enableSessionLogging').checked
+      enableSessionLogging: document.getElementById('enableSessionLogging').checked,
+      email: document.getElementById('emailAddress').value
     };
     
-    localStorage.setItem('pneumoniaAISettings', JSON.stringify(settings));
-    
-    // Show success message
-    showNotification('Settings saved successfully!', 'success');
-  }
-  
-  // Load settings from localStorage
-  function loadSettings() {
-    const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
-    
-    if (settings.confidenceThreshold) {
-      confidenceSlider.value = settings.confidenceThreshold;
-      confidenceValue.textContent = Math.round(settings.confidenceThreshold * 100) + '%';
-    }
-    
-    // Load checkbox states
-    Object.keys(settings).forEach(key => {
-      const element = document.getElementById(key);
-      if (element && typeof settings[key] === 'boolean') {
-        element.checked = settings[key];
+    // Save to backend
+    fetch('/api/settings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(settings)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Also save to localStorage for immediate UI updates
+        localStorage.setItem('pneumoniaAISettings', JSON.stringify(settings));
+        showNotification('Settings saved successfully!', 'success');
+        
+        // Play sound if sound alerts are enabled
+        if (settings.enableSoundAlerts) {
+          playNotificationSound('success');
+        }
+      } else {
+        showNotification('Failed to save settings: ' + data.message, 'error');
       }
+    })
+    .catch(error => {
+      console.error('Error saving settings:', error);
+      showNotification('Error saving settings. Please try again.', 'error');
     });
   }
   
+  // Load settings from backend
+  function loadSettings() {
+    fetch('/api/settings')
+      .then(response => response.json())
+      .then(settings => {
+        if (settings.confidenceThreshold) {
+          confidenceSlider.value = settings.confidenceThreshold;
+          confidenceValue.textContent = Math.round(settings.confidenceThreshold * 100) + '%';
+        }
+        
+        // Load checkbox states
+        Object.keys(settings).forEach(key => {
+          const element = document.getElementById(key);
+          if (element && typeof settings[key] === 'boolean') {
+            element.checked = settings[key];
+          }
+        });
+        
+        // Load email address
+        if (settings.email) {
+          document.getElementById('emailAddress').value = settings.email;
+        }
+        
+        // Show/hide email settings based on notification setting
+        toggleEmailSettings();
+        
+        // Also save to localStorage for immediate UI updates
+        localStorage.setItem('pneumoniaAISettings', JSON.stringify(settings));
+      })
+      .catch(error => {
+        console.error('Error loading settings:', error);
+        // Fallback to localStorage
+        const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
+        
+        if (settings.confidenceThreshold) {
+          confidenceSlider.value = settings.confidenceThreshold;
+          confidenceValue.textContent = Math.round(settings.confidenceThreshold * 100) + '%';
+        }
+        
+        Object.keys(settings).forEach(key => {
+          const element = document.getElementById(key);
+          if (element && typeof settings[key] === 'boolean') {
+            element.checked = settings[key];
+          }
+        });
+      });
+  }
+  
+  // Toggle email settings visibility
+  function toggleEmailSettings() {
+    const emailNotifications = document.getElementById('enableEmailNotifications');
+    const emailSettings = document.getElementById('emailSettings');
+    
+    if (emailNotifications.checked) {
+      emailSettings.style.display = 'block';
+    } else {
+      emailSettings.style.display = 'none';
+    }
+  }
+  
+  // Sound notification system
+  function playNotificationSound(type) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Different sounds for different types
+      if (type === 'success') {
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+      } else if (type === 'error') {
+        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.1);
+      } else {
+        oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+      }
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (error) {
+      console.log('Sound notification not supported:', error);
+    }
+  }
+  
   // Auto-save settings when changed
-  document.querySelectorAll('input[type="checkbox"], input[type="range"]').forEach(input => {
+  document.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="email"]').forEach(input => {
     input.addEventListener('change', saveSettings);
+  });
+  
+  // Special handler for email notifications checkbox
+  document.getElementById('enableEmailNotifications').addEventListener('change', function() {
+    toggleEmailSettings();
+    saveSettings();
   });
   
   // Load settings on page load

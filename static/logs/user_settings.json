@@ -1,0 +1,13 @@
+{
+  "test_user": {
+    "enableSoundAlerts": false,
+    "enableEmailNotifications": true,
+    "email": "test@example.com",
+    "enableAutoSave": false
+  },
+  "7ec6ebae-4057-40d8-9d40-c765aa6ef8b1": {
+    "email": "test@example.com",
+    "enableEmailNotifications": false,
+    "enableSoundAlerts": true
+  }
+}
