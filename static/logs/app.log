@@ -1,0 +1,258 @@
+2025-07-18 20:36:18,588 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:36:18,589 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:36:28,648 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.96.251:5000
+2025-07-18 20:36:28,648 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-18 20:36:28,650 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 20:36:30,870 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:36:30,872 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:36:30,878 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 20:36:31,143 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 20:36:53,981 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:36:53] "GET / HTTP/1.1" 200 -
+2025-07-18 20:36:54,069 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:36:54] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-18 20:36:54,120 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:36:54] "GET /static/js/main.js HTTP/1.1" 200 -
+2025-07-18 20:36:54,332 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:36:54] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:37:05,703 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:05] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:37:05,734 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:05] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:37:05,742 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:05] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:37:05,858 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:37:15,351 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:15] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:37:15,384 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:15] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:37:15,384 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:15] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:37:15,547 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:37:39,688 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:37:44,045 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:44] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:37:44,073 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:44] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:37:44,073 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:44] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:37:44,193 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:37:59,673 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:59] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:37:59,700 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:59] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:37:59,701 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:59] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:37:59,701 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:59] "GET /static/uploads/2d2b2a48-96ed-486a-be8a-239ad5525e4c_person3_virus_16.jpeg HTTP/1.1" 200 -
+2025-07-18 20:37:59,805 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:37:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:15,856 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:15] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:38:15,882 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:15] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:38:15,885 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:15] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:38:15,969 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:15] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:24,123 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:24] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:38:24,155 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:24] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:38:24,157 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:24] "GET /static/uploads/21149d5f-b375-4724-8fe6-7bbd59d76550_person8_virus_27.jpeg HTTP/1.1" 200 -
+2025-07-18 20:38:24,158 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:24] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:38:24,282 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:24] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:34,645 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:34] "GET / HTTP/1.1" 200 -
+2025-07-18 20:38:34,672 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:34] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:38:34,674 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:34] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:38:34,779 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:34] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:36,418 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:45,607 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:45] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:38:45,631 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:45] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:38:45,639 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:45] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:38:45,733 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:45] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:38:49,392 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:49] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:38:49,413 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:49] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:38:49,415 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:38:49,484 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:38:49] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:39:00,282 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:39:00] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:39:00,310 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:39:00] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:39:00,311 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:39:00] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:39:00,421 - werkzeug - INFO - 192.168.96.1 - - [18/Jul/2025 20:39:00] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:39:33,127 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:33] "GET / HTTP/1.1" 200 -
+2025-07-18 20:39:33,183 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:33] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-18 20:39:33,255 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:33] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:39:33,452 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:33] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:39:36,707 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:36] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:39:36,747 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:36] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:39:36,776 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:36] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:39:36,895 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:36] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:39:38,694 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:38] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:39:38,724 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:38] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:39:38,725 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:38] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:39:38,895 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:38] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:39:46,085 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:46] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:39:46,124 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:39:46,149 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:46] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:39:46,252 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:39:46] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:40:32,117 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:40:32] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:40:32,146 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:40:32] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:40:32,149 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:40:32] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:40:32,279 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:40:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:41:08,212 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:08] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:41:08,253 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:08] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:41:08,284 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:08] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:41:08,380 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:08] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:41:11,917 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:11] "GET / HTTP/1.1" 200 -
+2025-07-18 20:41:11,953 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:11] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:41:11,954 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:11] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:41:12,105 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:41:39,789 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:39] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:41:39,825 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:39] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:41:39,856 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:39] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:41:39,973 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:41:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:45:13,401 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:13] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:45:13,432 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:13] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:45:13,433 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:13] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:45:13,563 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:45:14,522 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:14] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:45:14,555 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:14] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:45:14,557 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:14] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:45:14,745 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:14] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:45:58,978 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:58] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:45:59,016 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:59] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:45:59,019 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:59] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:45:59,150 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:45:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:46:04,277 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:04] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:46:04,308 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:04] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:46:04,313 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:04] "GET /static/uploads/4763a999-3d34-4bf9-8043-27a7a0289d0f_person1_virus_7.jpeg HTTP/1.1" 200 -
+2025-07-18 20:46:04,313 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:04] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:46:04,447 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:04] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:46:06,620 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:06] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:46:06,649 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:06] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:46:06,649 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:06] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:46:06,765 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:46:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:47:20,052 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:20] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:47:20,087 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:20] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:47:20,089 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:20] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:47:20,202 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:20] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:47:28,959 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:28] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:47:28,996 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:28] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:47:28,997 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:28] "GET /static/uploads/623fb10f-6392-4971-9d2c-e3ef65ad0aa5_person1_virus_9.jpeg HTTP/1.1" 200 -
+2025-07-18 20:47:28,998 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:28] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:47:29,186 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:47:44,405 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:44] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:47:44,445 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:44] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:47:44,446 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:44] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:47:44,646 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:47:44] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:51:01,004 - werkzeug - INFO -  * Detected change in '/home/tibi/Pneumonia-detection/app.py', reloading
+2025-07-18 20:51:02,489 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 20:51:06,763 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:51:06,765 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:51:06,773 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 20:51:06,778 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 20:51:52,297 - werkzeug - INFO -  * Detected change in '/home/tibi/Pneumonia-detection/app.py', reloading
+2025-07-18 20:51:52,934 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 20:51:54,868 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:51:54,869 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:51:54,874 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 20:51:54,875 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 20:52:06,635 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:06] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:52:06,692 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:06] "GET /static/css/styles.css HTTP/1.1" 200 -
+2025-07-18 20:52:06,735 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:06] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:06,848 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:06] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:52:12,397 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:12] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:52:12,424 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:12] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:52:12,426 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:12] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:12,589 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:12] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:52:16,969 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:16] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:52:16,994 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:16] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:16,995 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:16] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:52:17,078 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:17] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:52:31,810 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:31] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:52:31,844 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:31] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:52:31,846 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:31] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:32,024 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:32] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:52:46,401 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:46] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:52:46,430 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:46] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:52:46,432 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:46] "GET /static/uploads/32f154ad-1ef5-4c3f-85aa-c01e0af2f407_person1_virus_12.jpeg HTTP/1.1" 200 -
+2025-07-18 20:52:46,433 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:46] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:46,572 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:46] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:52:59,491 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:59] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:52:59,519 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:59] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:52:59,533 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:59] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:52:59,641 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:52:59] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:05,356 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:05] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:53:05,393 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:05] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:05,394 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:05] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:05,522 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:05] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:25,959 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:25] "GET /settings HTTP/1.1" 200 -
+2025-07-18 20:53:25,983 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:25] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:25,985 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:25] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:26,075 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:30,286 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:30] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:53:30,316 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:30] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:30,317 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:30] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:30,428 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:30] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:35,051 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:35] "GET / HTTP/1.1" 200 -
+2025-07-18 20:53:35,085 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:35] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:35,086 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:35] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:35,264 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:35] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:39,495 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:39] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:53:39,521 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:39] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:39,527 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:39] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:39,647 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:39] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:41,980 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:41] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:53:42,007 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:42] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:42,007 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:42] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:42,115 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:42] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:53:47,351 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:47] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:53:47,384 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:47] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:53:47,386 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:47] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:53:47,389 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:47] "GET /static/uploads/d0cf50eb-6c2f-4c76-bac8-fde308b80c86_person1_virus_12.jpeg HTTP/1.1" 200 -
+2025-07-18 20:53:47,542 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:53:47] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:54:26,912 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:54:26,913 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:54:37,700 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.96.251:5000
+2025-07-18 20:54:37,700 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-18 20:54:37,702 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 20:54:44,103 - __main__ - INFO - Model loaded successfully
+2025-07-18 20:54:44,104 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 20:54:44,109 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 20:54:44,111 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 20:54:51,244 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:51] "GET / HTTP/1.1" 200 -
+2025-07-18 20:54:51,305 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:51] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:54:51,412 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:51] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:54:51,596 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:51] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:54:56,352 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:56] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:54:56,383 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:56] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:54:56,415 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:56] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:54:56,554 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:54:56] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:55:02,903 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:02] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 20:55:02,939 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:02] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:55:02,940 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:02] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:55:02,940 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:02] "GET /static/uploads/0b47a5cc-ed2c-4198-b796-acea3910768a_person3_virus_17.jpeg HTTP/1.1" 200 -
+2025-07-18 20:55:03,105 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:03] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:55:12,940 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:12] "GET /about HTTP/1.1" 200 -
+2025-07-18 20:55:12,968 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:12] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:55:12,968 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:12] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:55:13,143 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:13] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:55:26,767 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:26] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:55:26,791 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:26] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:55:26,793 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:26] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:55:26,914 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:26] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:55:28,912 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:28] "GET / HTTP/1.1" 200 -
+2025-07-18 20:55:28,942 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:28] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:55:28,944 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:28] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:55:29,047 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:55:29] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:56:52,806 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:56:52] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:56:52,833 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:56:52] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:56:52,834 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:56:52] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:56:52,957 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:56:52] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 20:58:50,349 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:58:50] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 20:58:50,382 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:58:50] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 20:58:50,383 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:58:50] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 20:58:50,493 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 20:58:50] "[35m[1mGET /favicon.ico HTTP/1.1[0m" 500 -
+2025-07-18 21:00:15,015 - werkzeug - INFO -  * Detected change in '/home/tibi/Pneumonia-detection/config.py', reloading
+2025-07-18 21:00:16,310 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 21:00:20,412 - __main__ - INFO - Model loaded successfully
+2025-07-18 21:00:20,414 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 21:00:20,423 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 21:00:20,426 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 21:00:28,151 - werkzeug - INFO -  * Detected change in '/home/tibi/Pneumonia-detection/config.py', reloading
+2025-07-18 21:00:28,552 - werkzeug - INFO -  * Restarting with stat
+2025-07-18 21:00:33,358 - __main__ - INFO - Model loaded successfully
+2025-07-18 21:00:33,360 - __main__ - INFO - Starting Pneumonia Detection Application
+2025-07-18 21:00:33,365 - werkzeug - WARNING -  * Debugger is active!
+2025-07-18 21:00:33,366 - werkzeug - INFO -  * Debugger PIN: 142-091-804
+2025-07-18 21:03:37,580 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:37] "GET /predictions HTTP/1.1" 200 -
+2025-07-18 21:03:37,621 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:37] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 21:03:37,622 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:37] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 21:03:37,728 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:37] "GET /static/favicon.ico HTTP/1.1" 200 -
+2025-07-18 21:03:54,684 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "POST /predictions HTTP/1.1" 200 -
+2025-07-18 21:03:54,718 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+2025-07-18 21:03:54,721 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "GET /static/uploads/a8754b44-09ac-404f-8ed2-8377e22fb642_person1_virus_9.jpeg HTTP/1.1" 200 -
+2025-07-18 21:03:54,722 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+2025-07-18 21:03:54,828 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -

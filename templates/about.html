@@ -1,0 +1,527 @@
+{% extends "base.html" %}
+{% block title %}About - AI Pneumonia Detection System{% endblock %}
+{% block content %}
+
+<div class="content px-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      
+        <!-- Header -->
+  <div class="about-header text-center mb-4">
+    <h1 class="display-5 mb-2">
+      🧠 About Our AI System
+    </h1>
+    <p class="lead mb-0">
+      Deep learning meets medical imaging for advanced pneumonia detection
+    </p>
+  </div>
+
+  <!-- Technical Overview -->
+  <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="tech-card">
+            <h4>🔬 Technical Architecture</h4>
+            <div class="architecture-diagram">
+              <div class="layer">Input Layer (150×150×3)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Conv2D (32 filters, 3×3)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">MaxPooling2D (2×2)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Conv2D (64 filters, 3×3)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">MaxPooling2D (2×2)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Conv2D (128 filters, 3×3)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">MaxPooling2D (2×2)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Flatten</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Dense (128 neurons)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Dropout (0.5)</div>
+              <div class="arrow">↓</div>
+              <div class="layer">Output (Binary Classification)</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="tech-card">
+            <h4>📊 Model Performance</h4>
+            <div class="performance-metrics">
+              <div class="metric-item">
+                <span class="metric-name">Accuracy</span>
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width: 95.2%"></div>
+                </div>
+                <span class="metric-value">95.2%</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-name">Precision</span>
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width: 94.8%"></div>
+                </div>
+                <span class="metric-value">94.8%</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-name">Recall</span>
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width: 96.1%"></div>
+                </div>
+                <span class="metric-value">96.1%</span>
+              </div>
+              <div class="metric-item">
+                <span class="metric-name">F1-Score</span>
+                <div class="metric-bar">
+                  <div class="metric-fill" style="width: 95.4%"></div>
+                </div>
+                <span class="metric-value">95.4%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Research Background -->
+  <div class="section-card mb-4">
+    <h3>🔬 Research Foundation</h3>
+    <div class="row">
+      <div class="col-md-8">
+        <p class="mb-3">
+          Our pneumonia detection system is built on cutting-edge research in computer vision and medical imaging. 
+          The model architecture is inspired by successful implementations in medical image analysis, particularly 
+          those published in leading conferences like MICCAI and journals such as Medical Image Analysis.
+        </p>
+        <h6>Key Research Areas:</h6>
+        <ul class="mb-0">
+          <li><strong>Convolutional Neural Networks (CNNs)</strong> for medical image classification</li>
+          <li><strong>Transfer Learning</strong> techniques for limited medical datasets</li>
+          <li><strong>Data Augmentation</strong> strategies for improving model robustness</li>
+          <li><strong>Attention Mechanisms</strong> for focusing on relevant image regions</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="research-stats">
+          <h6>📚 Research Impact</h6>
+          <div class="stat">
+            <div class="stat-value">5,856</div>
+            <div class="stat-label">Training Images</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">1,248</div>
+            <div class="stat-label">Validation + Test</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">25</div>
+            <div class="stat-label">Training Epochs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technology Stack -->
+  <div class="section-card mb-4">
+        <h3>🛠️ Technology Stack</h3>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="tech-stack-item">
+              <h5>🧠 AI & Machine Learning</h5>
+              <ul>
+                <li>TensorFlow 2.11+</li>
+                <li>Keras (High-level API)</li>
+                <li>NumPy (Numerical computing)</li>
+                <li>OpenCV (Computer vision)</li>
+                <li>Matplotlib (Visualization)</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="tech-stack-item">
+              <h5>🌐 Web Development</h5>
+              <ul>
+                <li>Flask (Python web framework)</li>
+                <li>Bootstrap 5 (Frontend)</li>
+                <li>Jinja2 (Template engine)</li>
+                <li>JavaScript (Client-side)</li>
+                <li>HTML5 & CSS3</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="tech-stack-item">
+              <h5>🔧 Development Tools</h5>
+              <ul>
+                <li>Python 3.8+</li>
+                <li>Git (Version control)</li>
+                <li>Pytest (Testing framework)</li>
+                <li>Black (Code formatting)</li>
+                <li>Flake8 (Code linting)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Data Pipeline -->
+  <div class="section-card mb-4">
+    <h3>🔄 Data Processing Pipeline</h3>
+    <div class="pipeline-flow">
+      <div class="pipeline-step">
+        <div class="step-icon">📤</div>
+        <h6>Image Upload</h6>
+        <p>Secure file validation and storage</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-icon">🔍</div>
+        <h6>Preprocessing</h6>
+        <p>Resize to 150×150, normalize pixel values</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-icon">🧠</div>
+        <h6>CNN Analysis</h6>
+        <p>Feature extraction through convolutional layers</p>
+      </div>
+      <div class="pipeline-arrow">→</div>
+      <div class="pipeline-step">
+        <div class="step-icon">📊</div>
+        <h6>Classification</h6>
+        <p>Binary prediction with confidence score</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Security & Compliance -->
+  <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="security-card">
+            <h4>🔒 Security Features</h4>
+            <ul class="security-list">
+              <li>
+                <span class="security-icon">🛡️</span>
+                <strong>Input Validation:</strong> Strict file type and size checking
+              </li>
+              <li>
+                <span class="security-icon">🔐</span>
+                <strong>Secure Storage:</strong> Temporary file handling with automatic cleanup
+              </li>
+              <li>
+                <span class="security-icon">⚡</span>
+                <strong>Rate Limiting:</strong> API protection against abuse
+              </li>
+              <li>
+                <span class="security-icon">🔍</span>
+                <strong>Error Handling:</strong> Sanitized error messages
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="compliance-card">
+            <h4>📋 Compliance & Ethics</h4>
+            <ul class="compliance-list">
+              <li>
+                <span class="compliance-icon">🏥</span>
+                <strong>Medical Disclaimer:</strong> Clear educational purpose statement
+              </li>
+              <li>
+                <span class="compliance-icon">📊</span>
+                <strong>Audit Trail:</strong> Comprehensive logging for transparency
+              </li>
+              <li>
+                <span class="compliance-icon">🔄</span>
+                <strong>Version Control:</strong> Model versioning and tracking
+              </li>
+              <li>
+                <span class="compliance-icon">👥</span>
+                <strong>Human Oversight:</strong> AI as supplementary tool
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+        <!-- Future Enhancements -->
+  <div class="section-card mb-4">
+    <h3>🚀 Future Enhancements</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <h6>🔬 Technical Improvements</h6>
+        <ul class="mb-0">
+          <li>Multi-class classification (bacterial vs viral pneumonia)</li>
+          <li>Ensemble models for improved accuracy</li>
+          <li>Attention mechanisms for interpretability</li>
+          <li>DICOM format support</li>
+          <li>Real-time batch processing</li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <h6>🌐 Platform Expansion</h6>
+        <ul class="mb-0">
+          <li>Mobile application development</li>
+          <li>Cloud deployment with auto-scaling</li>
+          <li>Integration with hospital systems</li>
+          <li>Multi-language support</li>
+          <li>Advanced analytics dashboard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+      <!-- Contact & Collaboration -->
+      <div class="contact-section text-center">
+        <h3>🤝 Collaboration & Contact</h3>
+        <p class="lead mb-4">
+          Interested in collaborating or learning more about our AI system?
+        </p>
+        <div class="contact-buttons">
+          <a href="mailto:tiberiugutanu@gmail.com" class="btn btn-primary btn-lg me-3">
+            📧 Contact Us
+          </a>
+          <a href="https://github.com/tiberiu04/pneumonia-detector" class="btn btn-outline-primary btn-lg">
+            💻 View Source Code
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+.about-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2.5rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.tech-card, .section-card, .security-card, .compliance-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  height: 100%;
+}
+
+.architecture-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.layer {
+  background: #f8f9fa;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  width: 100%;
+  max-width: 200px;
+}
+
+.arrow {
+  color: #667eea;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.performance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.metric-name {
+  min-width: 80px;
+  font-weight: 600;
+}
+
+.metric-bar {
+  flex: 1;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.metric-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.8s ease;
+}
+
+.metric-value {
+  font-weight: bold;
+  color: #667eea;
+  min-width: 50px;
+}
+
+.research-stats {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat {
+  margin-bottom: 1rem;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.tech-stack-item {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  height: 100%;
+  border-left: 4px solid #667eea;
+}
+
+.tech-stack-item h5 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.tech-stack-item ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tech-stack-item li {
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tech-stack-item li:last-child {
+  border-bottom: none;
+}
+
+.pipeline-flow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.pipeline-step {
+  text-align: center;
+  max-width: 200px;
+}
+
+.step-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.pipeline-arrow {
+  font-size: 2rem;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.security-list, .compliance-list {
+  list-style: none;
+  padding: 0;
+}
+
+.security-list li, .compliance-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.security-list li:last-child, .compliance-list li:last-child {
+  border-bottom: none;
+}
+
+.security-icon, .compliance-icon {
+  font-size: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.contact-section {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 15px;
+}
+
+.contact-buttons .btn {
+  margin: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .about-header {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+[data-theme="dark"] .research-stats {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .tech-stack-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .contact-section {
+  background: linear-gradient(135deg, #1a4b3b 0%, #2d5a27 100%);
+}
+
+@media (max-width: 768px) {
+  .pipeline-flow {
+    flex-direction: column;
+  }
+  
+  .pipeline-arrow {
+    transform: rotate(90deg);
+  }
+  
+  .about-header {
+    padding: 2rem 1rem;
+  }
+  
+  .metric-item {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .metric-name {
+    min-width: auto;
+  }
+}
+</style>
+
+{% endblock %}

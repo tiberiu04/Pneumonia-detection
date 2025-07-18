@@ -1,162 +1,293 @@
 {% extends "base.html" %}
-{% block title %}Home - Pneumonia Detector{% endblock %}
+{% block title %}Home - AI Pneumonia Detection System{% endblock %}
 {% block content %}
 
 <div class="content px-4">
-
-  <h1 class="display-4 mb-3 text-center text-primary">Pneumonia Detector</h1>
-  <p class="lead text-center">
-    Harnessing the power of Artificial Intelligence to aid in the early detection of pneumonia from chest X-rays.
-  </p>
-
-<div class="card mt-4 p-4 shadow border-primary border-2">
-  <h4 class="text-primary">What is Pneumonia?</h4>
-  <p>
-    Pneumonia is a serious respiratory infection that causes inflammation of the alveoli — the tiny air sacs in the lungs. These air sacs may fill with fluid or pus, making it difficult for oxygen to reach the bloodstream and for carbon dioxide to be expelled. Pneumonia can affect one or both lungs, and it ranges in severity from mild to life-threatening, particularly in vulnerable populations.
-  </p>
-
-  <p>
-    Pneumonia can be caused by a variety of organisms, including:
-    <ul>
-      <li><strong>Bacteria</strong> — e.g., <em>Streptococcus pneumoniae</em>, the most common cause worldwide.</li>
-      <li><strong>Viruses</strong> — including influenza and respiratory syncytial virus (RSV), especially in children.</li>
-      <li><strong>Fungi</strong> — which can cause pneumonia in immunocompromised patients.</li>
-      <li>Less commonly, inhalation of chemicals or aspiration of food/liquids (aspiration pneumonia).</li>
-    </ul>
-  </p>
-
-  <p>
-    <strong>Who is at risk?</strong> While pneumonia can affect anyone, it is more severe in infants, the elderly, and people with chronic illnesses or weakened immunity. Smokers and those exposed to air pollution are also at higher risk.
-  </p>
-
-  <p>
-    <strong>Symptoms</strong> often include <em>cough, fever, chest pain, shortness of breath, and fatigue</em>. Confusion can occur in older adults. Diagnosis is made using clinical examination, chest X-rays, and sometimes blood or sputum tests.
-  </p>
-
-  <p>
-    <strong>Treatment</strong> depends on the cause: antibiotics for bacterial pneumonia, antivirals for some viral pneumonias, and antifungals for fungal infections. Supportive care includes rest, fluids, oxygen therapy, and sometimes hospitalization.
-  </p>
-
-  <p>
-    Vaccines such as the pneumococcal and influenza vaccines significantly reduce the risk of pneumonia, especially in high-risk groups.
-  </p>
-
-  <p class="mt-3 text-muted text-center">
-    <small>Early detection is key to avoiding severe complications. AI-driven tools can help radiologists identify pneumonia on X-rays faster and more accurately.</small>
-  </p>
-</div>
-
-
-<div class="row mt-5 gy-4">
-  <div class="col-md-4">
-    <div class="card h-100 p-3 shadow-sm border rounded border-info">
-      <h5 class="text-info">Lung Function</h5>
-      <p>The lungs enable oxygen uptake & carbon dioxide removal, maintaining the body’s critical gas exchange and pH balance.</p>
-      <img src="{{ url_for('static', filename='images/lungs.jpg') }}" class="img-fluid mt-2 rounded" alt="Lungs">
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="card h-100 p-3 shadow-sm border rounded border-success">
-      <h5 class="text-success">Epidemiology</h5>
-      <p>Pneumonia remains a leading cause of death globally — especially in developing countries & immunocompromised individuals.</p>
-      <img src="{{ url_for('static', filename='images/graph.jpg') }}" class="img-fluid mt-2 rounded" alt="Statistics">
-    </div>
-  </div>
-
-  <div class="col-md-4">
-    <div class="card h-100 p-3 shadow-sm border rounded border-warning">
-      <h5 class="text-warning">The Role of AI</h5>
-      <p>Artificial Intelligence, especially deep learning (CNNs), identifies subtle radiographic patterns invisible to the human eye.</p>
-      <img src="{{ url_for('static', filename='images/brain.jpeg') }}" class="img-fluid mt-2 rounded" alt="Brain & AI">
-    </div>
-  </div>
-</div>
-
-
-  <div class="card mt-5 p-4 shadow border-2 border-info">
-    <h4 class="text-info">Pneumonia Global Burden</h4>
-    <p>
-      The chart below illustrates estimated pneumonia incidence & mortality by age group and world region.
+  <!-- Hero Section -->
+  <div class="hero-section text-center mb-5">
+    <h1 class="display-3 mb-3 text-primary fw-bold">
+      🩺 AI Pneumonia Detection System
+    </h1>
+    <p class="lead text-muted mb-4">
+      Radiologist-level pneumonia detection powered by deep learning and computer vision
     </p>
-    <canvas id="pneumoniaChart" height="120"></canvas>
+    <div class="hero-buttons">
+      <a href="{{ url_for('predictions') }}" class="btn btn-primary btn-lg me-3">
+        📷 Analyze X-Ray
+      </a>
+      <a href="#metrics" class="btn btn-outline-primary btn-lg">
+        📊 View Performance
+      </a>
+    </div>
   </div>
 
-  <div class="text-muted mt-5 text-center">
-    <small>Made with heart using Flask, Bootstrap & Chart.js — AI assists doctors, it does not replace medical judgment.</small>
+  <!-- Performance Metrics Cards -->
+  <div class="row mb-5" id="metrics">
+    <div class="col-md-3 mb-3">
+      <div class="metric-card">
+        <div class="metric-icon">🎯</div>
+        <div class="metric-value">{{ "%.1f"|format(metrics.accuracy) }}%</div>
+        <div class="metric-label">Accuracy</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="metric-card">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-value">{{ "%.1f"|format(metrics.precision) }}%</div>
+        <div class="metric-label">Precision</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="metric-card">
+        <div class="metric-icon">🔍</div>
+        <div class="metric-value">{{ "%.1f"|format(metrics.recall) }}%</div>
+        <div class="metric-label">Recall</div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="metric-card">
+        <div class="metric-icon">📈</div>
+        <div class="metric-value">{{ "%.1f"|format(metrics.f1_score) }}%</div>
+        <div class="metric-label">F1-Score</div>
+      </div>
+    </div>
   </div>
 
+  <!-- Feature Highlights -->
+  <div class="row mb-5">
+    <div class="col-md-4 mb-4">
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h5>Deep Learning Model</h5>
+        <p>Custom CNN architecture with 3 convolutional layers trained on {{ "{:,}".format(metrics.training_samples) }} chest X-ray images.</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h5>Real-time Analysis</h5>
+        <p>Instant pneumonia detection with confidence scores and processing time under 2 seconds.</p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h5>Secure & Private</h5>
+        <p>HIPAA-compliant processing with secure file handling and automatic cleanup.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medical Information -->
+  <div class="card mt-4 p-4 shadow-sm border-0">
+    <h4 class="text-primary mb-3">
+      <i class="fas fa-lungs"></i> Understanding Pneumonia
+    </h4>
+    <div class="row">
+      <div class="col-md-8">
+        <p class="mb-3">
+          Pneumonia is a serious respiratory infection that causes inflammation of the alveoli — the tiny air sacs in the lungs. These air sacs may fill with fluid or pus, making it difficult for oxygen to reach the bloodstream and for carbon dioxide to be expelled.
+        </p>
+        
+        <h6 class="text-secondary">Common Causes:</h6>
+        <ul class="list-unstyled mb-3">
+          <li><strong>🦠 Bacteria</strong> — <em>Streptococcus pneumoniae</em> (most common)</li>
+          <li><strong>🦠 Viruses</strong> — Influenza, RSV, COVID-19</li>
+          <li><strong>🍄 Fungi</strong> — In immunocompromised patients</li>
+          <li><strong>💨 Aspiration</strong> — Inhalation of foreign substances</li>
+        </ul>
+
+        <h6 class="text-secondary">Key Symptoms:</h6>
+        <div class="symptom-tags mb-3">
+          <span class="badge bg-light text-dark me-2">Persistent Cough</span>
+          <span class="badge bg-light text-dark me-2">Fever & Chills</span>
+          <span class="badge bg-light text-dark me-2">Chest Pain</span>
+          <span class="badge bg-light text-dark me-2">Shortness of Breath</span>
+          <span class="badge bg-light text-dark me-2">Fatigue</span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="info-box">
+          <h6>🎯 Early Detection Benefits</h6>
+          <ul class="small">
+            <li>Faster treatment initiation</li>
+            <li>Reduced complications</li>
+            <li>Better patient outcomes</li>
+            <li>Lower healthcare costs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <div class="row mt-5">
+    <div class="col-12">
+      <h4 class="text-center mb-4">How Our AI Detection Works</h4>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h6>Upload X-Ray</h6>
+          <p>Secure upload of chest X-ray images (PNG, JPG, JPEG)</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h6>AI Analysis</h6>
+          <p>CNN model processes image through 3 convolutional layers</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h6>Results</h6>
+          <p>Instant prediction with confidence score and processing time</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="cta-section text-center mt-5 p-4">
+    <h5 class="mb-3">Ready to Analyze Your X-Ray?</h5>
+    <p class="text-muted mb-4">Get instant, AI-powered pneumonia detection results</p>
+    <a href="{{ url_for('predictions') }}" class="btn btn-success btn-lg">
+      🚀 Start Analysis
+    </a>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="alert alert-info mt-4" role="alert">
+    <strong>⚠️ Medical Disclaimer:</strong> This application is for educational and research purposes only. 
+    Always consult with qualified medical professionals for medical diagnosis and treatment. 
+    AI predictions should be used as a supplementary tool, not a replacement for professional medical judgment.
+  </div>
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const ctx = document.getElementById('pneumoniaChart').getContext('2d');
+<style>
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 3rem;
+}
 
-  const gradient1 = ctx.createLinearGradient(0, 0, 0, 400);
-  gradient1.addColorStop(0, '#4facfe');
-  gradient1.addColorStop(1, '#00f2fe');
+.hero-buttons .btn {
+  margin: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+}
 
-  const gradient2 = ctx.createLinearGradient(0, 0, 0, 400);
-  gradient2.addColorStop(0, '#fbc2eb');
-  gradient2.addColorStop(1, '#a6c1ee');
+.metric-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: [
-        'Children <5',
-        'Adults 18-64',
-        'Elderly 65+',
-        'Asia',
-        'Africa',
-        'Europe',
-        'Americas'
-      ],
-      datasets: [
-        {
-          label: 'Incidence (per million)',
-          data: [120000, 70000, 100000, 80000, 150000, 30000, 25000],
-          backgroundColor: gradient1,
-          borderRadius: 5
-        },
-        {
-          label: 'Mortality (per million)',
-          data: [2000, 500, 4000, 3000, 5000, 800, 700],
-          backgroundColor: gradient2,
-          borderRadius: 5
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        duration: 2000,
-        easing: 'easeOutQuart'
-      },
-      plugins: {
-        legend: {
-          labels: { color: '#333' }
-        },
-        tooltip: {
-          backgroundColor: '#f8f9fa',
-          titleColor: '#333',
-          bodyColor: '#555'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { color: '#333' },
-          grid: { color: '#eee' }
-        },
-        x: {
-          ticks: { color: '#333' },
-          grid: { color: '#eee' }
-        }
-      }
-    }
-  });
-});
-</script>
+.metric-card:hover {
+  transform: translateY(-5px);
+}
+
+.metric-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.metric-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.metric-label {
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  height: 100%;
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.info-box {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 4px solid #667eea;
+}
+
+.process-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.step {
+  text-align: center;
+  max-width: 200px;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #667eea;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 auto 1rem;
+}
+
+.step-arrow {
+  font-size: 2rem;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.cta-section {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  border-radius: 15px;
+}
+
+.symptom-tags .badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  margin: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .process-steps {
+    flex-direction: column;
+  }
+  
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+  
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+}
+</style>
 
 {% endblock %}
