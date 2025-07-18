@@ -1,57 +1,661 @@
 {% extends "base.html" %}
-{% block title %}Settings - Pneumonia Detector{% endblock %}
-
+{% block title %}Settings - AI Pneumonia Detection System{% endblock %}
 {% block content %}
-<div class="content">
-  <h1 class="text-center mb-4">Settings</h1>
-  <p class="text-center">Personalize your experience and learn more about the AI powering the predictions.</p>
 
-  <div class="card p-4 my-3 shadow-sm">
-    <h5>Theme</h5>
-    <p>Switch between Light & Dark mode for a comfortable experience.</p>
-    <label class="form-check-label">
-      <input type="checkbox" id="themeToggle" class="form-check-input"> Enable Dark Mode
-    </label>
-  </div>
+<div class="content px-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      
+      <!-- Header -->
+      <div class="settings-header text-center mb-5">
+        <h1 class="display-5 mb-3">
+          ⚙️ System Settings
+        </h1>
+        <p class="lead">
+          Personalize your experience and configure the AI system
+        </p>
+      </div>
 
-  <div class="card p-4 my-3 shadow-sm">
-    <h5>AI Model Info</h5>
-    <p>Details about the AI model powering this application:</p>
-    <ul>
-      <li>Type: Convolutional Neural Network (CNN)</li>
-      <li>Accuracy: ~92%</li>
-      <li>Trained on: Chest X-ray dataset (5000+ images)</li>
-      <li>Last updated: June 2025</li>
-    </ul>
-    <div class="progress mt-2">
-      <div class="progress-bar" role="progressbar" style="width: 92%;">92% Accuracy</div>
+      <!-- Theme Settings -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-palette"></i> Appearance
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="theme-option">
+                  <h6>Theme Mode</h6>
+                  <p class="text-muted">Choose your preferred interface theme</p>
+                  <div class="theme-toggle-container">
+                    <div class="theme-toggle" id="themeToggleAdvanced">
+                      <div class="toggle-slider">
+                        <i class="fas fa-sun light-icon"></i>
+                        <i class="fas fa-moon dark-icon"></i>
+                      </div>
+                    </div>
+                    <span class="theme-label" id="themeLabel">Light Mode</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="theme-preview">
+                  <h6>Preview</h6>
+                  <div class="preview-card" id="previewCard">
+                    <div class="preview-header"></div>
+                    <div class="preview-content">
+                      <div class="preview-text"></div>
+                      <div class="preview-text short"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Model Configuration -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-brain"></i> AI Model Configuration
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="model-info">
+                  <h6>Current Model</h6>
+                  <div class="model-stats">
+                    <div class="stat-item">
+                      <span class="stat-label">Accuracy:</span>
+                      <span class="stat-value">{{ "%.1f"|format(metrics.accuracy) }}%</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Precision:</span>
+                      <span class="stat-value">{{ "%.1f"|format(metrics.precision) }}%</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Recall:</span>
+                      <span class="stat-value">{{ "%.1f"|format(metrics.recall) }}%</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-label">Training Images:</span>
+                      <span class="stat-value">{{ "{:,}".format(metrics.training_samples) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="model-controls">
+                  <h6>Analysis Settings</h6>
+                  <div class="form-group mb-3">
+                    <label for="confidenceThreshold">Confidence Threshold</label>
+                    <input type="range" class="form-range" id="confidenceThreshold" min="0.5" max="0.95" step="0.05" value="0.7">
+                    <div class="range-labels">
+                      <span>50%</span>
+                      <span id="confidenceValue">70%</span>
+                      <span>95%</span>
+                    </div>
+                  </div>
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="enableDetailedAnalysis" checked>
+                    <label class="form-check-label" for="enableDetailedAnalysis">
+                      Enable detailed analysis reports
+                    </label>
+                  </div>
+                  <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="enableNaturalRemedies" checked>
+                    <label class="form-check-label" for="enableNaturalRemedies">
+                      Show natural remedy recommendations
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Settings -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-bell"></i> Notifications
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableSoundAlerts" checked>
+                  <label class="form-check-label" for="enableSoundAlerts">
+                    Enable sound alerts for results
+                  </label>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableEmailNotifications">
+                  <label class="form-check-label" for="enableEmailNotifications">
+                    Email notifications for analysis completion
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableProgressUpdates" checked>
+                  <label class="form-check-label" for="enableProgressUpdates">
+                    Show detailed progress updates
+                  </label>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableAutoSave" checked>
+                  <label class="form-check-label" for="enableAutoSave">
+                    Auto-save analysis results
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy & Security -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-shield-alt"></i> Privacy & Security
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableDataEncryption" checked>
+                  <label class="form-check-label" for="enableDataEncryption">
+                    Encrypt uploaded images
+                  </label>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableAutoDelete" checked>
+                  <label class="form-check-label" for="enableAutoDelete">
+                    Auto-delete images after analysis
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableAnalytics">
+                  <label class="form-check-label" for="enableAnalytics">
+                    Anonymous usage analytics
+                  </label>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="enableSessionLogging">
+                  <label class="form-check-label" for="enableSessionLogging">
+                    Session activity logging
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export & Backup -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-download"></i> Data Management
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Export Data</h6>
+                <p class="text-muted">Download your analysis history and settings</p>
+                <button class="btn btn-outline-primary me-2" onclick="exportData('json')">
+                  <i class="fas fa-file-code"></i> Export as JSON
+                </button>
+                <button class="btn btn-outline-primary" onclick="exportData('csv')">
+                  <i class="fas fa-file-csv"></i> Export as CSV
+                </button>
+              </div>
+              <div class="col-md-6">
+                <h6>System Reset</h6>
+                <p class="text-muted">Clear all data and reset to defaults</p>
+                <button class="btn btn-outline-warning" onclick="resetSettings()">
+                  <i class="fas fa-undo"></i> Reset Settings
+                </button>
+                <button class="btn btn-outline-danger ms-2" onclick="clearAllData()">
+                  <i class="fas fa-trash"></i> Clear All Data
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact & Support -->
+      <div class="settings-section mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="card-title mb-3">
+              <i class="fas fa-headset"></i> Support & Feedback
+            </h4>
+            <div class="row">
+              <div class="col-md-6">
+                <h6>Quick Actions</h6>
+                <div class="support-actions">
+                  <button class="btn btn-outline-info btn-sm me-2 mb-2" onclick="showHelp()">
+                    <i class="fas fa-question-circle"></i> Help
+                  </button>
+                  <button class="btn btn-outline-info btn-sm me-2 mb-2" onclick="showTutorial()">
+                    <i class="fas fa-play-circle"></i> Tutorial
+                  </button>
+                  <button class="btn btn-outline-info btn-sm mb-2" onclick="reportIssue()">
+                    <i class="fas fa-bug"></i> Report Issue
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h6>System Information</h6>
+                <div class="system-info">
+                  <small class="text-muted">
+                    <strong>Version:</strong> 1.0.0<br>
+                    <strong>Model Version:</strong> v1.0<br>
+                    <strong>Last Updated:</strong> <span id="lastUpdated"></span><br>
+                    <strong>Status:</strong> <span class="text-success">Active</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <div class="card p-4 my-3 shadow-sm">
-    <h5>Contact Us</h5>
-    <p>If you have any questions, feedback or suggestions, feel free to contact us below. Your message will be sent directly to our team.</p>
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <form method="POST" action="https://formsubmit.co/your@email.com">
-      <div class="mb-3">
-        <label>Your Email:</label>
-        <input type="email" name="email" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>Message:</label>
-        <textarea name="message" class="form-control" rows="4" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Send Message</button>
-    </form>
-  </div>
-
 </div>
+
+<style>
+.settings-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+}
+
+.card-title {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.theme-toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle {
+  width: 60px;
+  height: 30px;
+  background: #e9ecef;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle.dark {
+  background: #667eea;
+}
+
+.toggle-slider {
+  width: 26px;
+  height: 26px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.theme-toggle.dark .toggle-slider {
+  transform: translateX(30px);
+}
+
+.light-icon, .dark-icon {
+  font-size: 12px;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.light-icon {
+  color: #ffc107;
+  opacity: 1;
+}
+
+.dark-icon {
+  color: #6c757d;
+  opacity: 0;
+}
+
+.theme-toggle.dark .light-icon {
+  opacity: 0;
+}
+
+.theme-toggle.dark .dark-icon {
+  opacity: 1;
+  color: #fff;
+}
+
+.theme-label {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.preview-card {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.preview-header {
+  height: 20px;
+  background: var(--primary-color);
+}
+
+.preview-content {
+  padding: 10px;
+}
+
+.preview-text {
+  height: 8px;
+  background: var(--text-color);
+  border-radius: 4px;
+  margin-bottom: 5px;
+  opacity: 0.3;
+}
+
+.preview-text.short {
+  width: 60%;
+}
+
+.model-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--light-color);
+  border-radius: 8px;
+}
+
+.stat-label {
+  font-weight: 500;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.7;
+}
+
+.support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.system-info {
+  background: var(--light-color);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .settings-header {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: #495057;
+}
+
+[data-theme="dark"] .theme-toggle.dark {
+  background: #667eea;
+}
+
+[data-theme="dark"] .stat-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .system-info {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+  .settings-header {
+    padding: 2rem 1rem;
+  }
+  
+  .support-actions {
+    justify-content: center;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize theme toggle
+  const themeToggle = document.getElementById('themeToggleAdvanced');
+  const themeLabel = document.getElementById('themeLabel');
+  const confidenceSlider = document.getElementById('confidenceThreshold');
+  const confidenceValue = document.getElementById('confidenceValue');
+  const lastUpdated = document.getElementById('lastUpdated');
+  
+  // Set last updated date
+  lastUpdated.textContent = new Date().toLocaleDateString();
+  
+  // Load saved theme
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  updateThemeToggle(savedTheme);
+  
+  // Theme toggle functionality
+  themeToggle.addEventListener('click', function() {
+    const currentTheme = document.body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeToggle(newTheme);
+    
+    // Update main theme toggle in header as well
+    const headerToggle = document.getElementById('theme-toggle');
+    if (headerToggle) {
+      const icon = headerToggle.querySelector('i');
+      icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+  });
+  
+  function updateThemeToggle(theme) {
+    if (theme === 'dark') {
+      themeToggle.classList.add('dark');
+      themeLabel.textContent = 'Dark Mode';
+    } else {
+      themeToggle.classList.remove('dark');
+      themeLabel.textContent = 'Light Mode';
+    }
+  }
+  
+  // Confidence threshold slider
+  confidenceSlider.addEventListener('input', function() {
+    const value = Math.round(this.value * 100);
+    confidenceValue.textContent = value + '%';
+  });
+  
+  // Save settings to localStorage
+  function saveSettings() {
+    const settings = {
+      theme: document.body.getAttribute('data-theme'),
+      confidenceThreshold: confidenceSlider.value,
+      enableDetailedAnalysis: document.getElementById('enableDetailedAnalysis').checked,
+      enableNaturalRemedies: document.getElementById('enableNaturalRemedies').checked,
+      enableSoundAlerts: document.getElementById('enableSoundAlerts').checked,
+      enableEmailNotifications: document.getElementById('enableEmailNotifications').checked,
+      enableProgressUpdates: document.getElementById('enableProgressUpdates').checked,
+      enableAutoSave: document.getElementById('enableAutoSave').checked,
+      enableDataEncryption: document.getElementById('enableDataEncryption').checked,
+      enableAutoDelete: document.getElementById('enableAutoDelete').checked,
+      enableAnalytics: document.getElementById('enableAnalytics').checked,
+      enableSessionLogging: document.getElementById('enableSessionLogging').checked
+    };
+    
+    localStorage.setItem('pneumoniaAISettings', JSON.stringify(settings));
+    
+    // Show success message
+    showNotification('Settings saved successfully!', 'success');
+  }
+  
+  // Load settings from localStorage
+  function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
+    
+    if (settings.confidenceThreshold) {
+      confidenceSlider.value = settings.confidenceThreshold;
+      confidenceValue.textContent = Math.round(settings.confidenceThreshold * 100) + '%';
+    }
+    
+    // Load checkbox states
+    Object.keys(settings).forEach(key => {
+      const element = document.getElementById(key);
+      if (element && typeof settings[key] === 'boolean') {
+        element.checked = settings[key];
+      }
+    });
+  }
+  
+  // Auto-save settings when changed
+  document.querySelectorAll('input[type="checkbox"], input[type="range"]').forEach(input => {
+    input.addEventListener('change', saveSettings);
+  });
+  
+  // Load settings on page load
+  loadSettings();
+});
+
+// Utility functions
+function exportData(format) {
+  const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
+  const data = {
+    settings: settings,
+    exportDate: new Date().toISOString(),
+    version: '1.0.0'
+  };
+  
+  if (format === 'json') {
+    downloadFile(JSON.stringify(data, null, 2), 'pneumonia-ai-settings.json', 'application/json');
+  } else if (format === 'csv') {
+    const csv = convertToCSV(data);
+    downloadFile(csv, 'pneumonia-ai-settings.csv', 'text/csv');
+  }
+  
+  showNotification('Data exported successfully!', 'success');
+}
+
+function resetSettings() {
+  if (confirm('Are you sure you want to reset all settings to default?')) {
+    localStorage.removeItem('pneumoniaAISettings');
+    location.reload();
+  }
+}
+
+function clearAllData() {
+  if (confirm('Are you sure you want to clear all data? This action cannot be undone.')) {
+    localStorage.clear();
+    showNotification('All data cleared successfully!', 'warning');
+    setTimeout(() => location.reload(), 1000);
+  }
+}
+
+function showHelp() {
+  alert('Help: This AI system analyzes chest X-rays for pneumonia detection. Upload a clear chest X-ray image and get instant results with confidence scores.');
+}
+
+function showTutorial() {
+  alert('Tutorial: 1. Go to AI Analysis page 2. Upload chest X-ray image 3. Wait for processing 4. Review results and recommendations');
+}
+
+function reportIssue() {
+  const email = 'support@pneumonia-ai.com';
+  const subject = 'Issue Report - Pneumonia AI System';
+  const body = 'Please describe the issue you encountered:\n\n';
+  window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+}
+
+function downloadFile(content, filename, contentType) {
+  const blob = new Blob([content], { type: contentType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function convertToCSV(data) {
+  const headers = ['Setting', 'Value'];
+  const rows = Object.entries(data.settings).map(([key, value]) => [key, value]);
+  
+  const csvContent = [headers, ...rows]
+    .map(row => row.map(field => `"${field}"`).join(','))
+    .join('\n');
+  
+  return csvContent;
+}
+
+function showNotification(message, type) {
+  const notification = document.createElement('div');
+  notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+  notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+  notification.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 5000);
+}
+</script>
+
 {% endblock %}

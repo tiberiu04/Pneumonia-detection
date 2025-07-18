@@ -79,6 +79,76 @@ def log_prediction(image_path, prediction, confidence, processing_time):
     except Exception as e:
         logger.error(f"Failed to log prediction: {str(e)}")
 
+def get_natural_remedies(prediction, confidence):
+    """Get natural remedies based on prediction and severity"""
+    remedies = {
+        'general': [
+            "🫖 Drink plenty of warm fluids (herbal teas, warm water with honey)",
+            "🍯 Honey has natural antibacterial properties - take 1-2 teaspoons daily",
+            "🧄 Garlic contains allicin, which has antimicrobial effects",
+            "🫁 Practice deep breathing exercises to improve lung function",
+            "😴 Get adequate rest to support immune system recovery",
+            "🌿 Ginger tea can help reduce inflammation and boost immunity"
+        ],
+        'mild': [
+            "🌿 Drink eucalyptus tea or inhale eucalyptus steam",
+            "🍋 Warm lemon water with honey to soothe throat and boost vitamin C",
+            "🥣 Chicken soup provides hydration and nutrients for recovery",
+            "🌱 Turmeric milk (golden milk) has anti-inflammatory properties",
+            "🫖 Thyme tea has natural expectorant properties",
+            "🧘 Light yoga or stretching to maintain circulation"
+        ],
+        'moderate': [
+            "🫖 Oregano oil (diluted) has strong antimicrobial properties",
+            "🍄 Mushroom broths (shiitake, reishi) support immune function",
+            "🌿 Fenugreek tea helps break down mucus and reduce inflammation",
+            "🫁 Steam inhalation with salt water 2-3 times daily",
+            "🥄 Apple cider vinegar diluted in water may help alkalinize the body",
+            "🌱 Elderberry syrup supports immune system function"
+        ],
+        'severe': [
+            "⚠️ SEEK IMMEDIATE MEDICAL ATTENTION - These are supportive measures only",
+            "🏥 Contact healthcare provider or emergency services immediately",
+            "💊 Natural remedies should complement, not replace, medical treatment",
+            "🫁 Maintain upright position to ease breathing",
+            "💧 Stay hydrated with small, frequent sips of water",
+            "🌡️ Monitor temperature and breathing rate closely"
+        ]
+    }
+    
+    if prediction == "NORMAL":
+        return {
+            'severity': 'none',
+            'message': '✅ No pneumonia detected. Maintain good respiratory health with these preventive measures:',
+            'remedies': [
+                "🫁 Practice regular deep breathing exercises",
+                "🏃 Regular exercise to strengthen respiratory system",
+                "🥗 Maintain a balanced diet rich in vitamins C and D",
+                "💧 Stay well-hydrated throughout the day",
+                "😴 Get 7-9 hours of quality sleep",
+                "🚭 Avoid smoking and secondhand smoke"
+            ]
+        }
+    
+    # Determine severity based on confidence
+    if confidence < 0.65:
+        severity = 'mild'
+        message = '🟡 Mild pneumonia indicators detected. Consider these natural supportive measures:'
+    elif confidence < 0.85:
+        severity = 'moderate'
+        message = '🟠 Moderate pneumonia indicators detected. Use these remedies alongside medical consultation:'
+    else:
+        severity = 'severe'
+        message = '🔴 Strong pneumonia indicators detected. SEEK IMMEDIATE MEDICAL ATTENTION:'
+    
+    selected_remedies = remedies['general'][:3] + remedies[severity]
+    
+    return {
+        'severity': severity,
+        'message': message,
+        'remedies': selected_remedies
+    }
+
 def predict_image(image_path):
     """Enhanced prediction function with error handling and logging"""
     if model is None:
@@ -108,13 +178,17 @@ def predict_image(image_path):
             result = "NORMAL"
             confidence = float(1 - pred)
         
+        # Get natural remedies
+        remedies = get_natural_remedies(result, confidence)
+        
         # Log prediction
         log_prediction(image_path, result, confidence, processing_time)
         
         return {
             'prediction': result,
             'confidence': confidence,
-            'processing_time': processing_time
+            'processing_time': processing_time,
+            'remedies': remedies
         }
         
     except Exception as e:

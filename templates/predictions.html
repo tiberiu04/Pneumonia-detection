@@ -134,6 +134,31 @@
                     </p>
                   {% endif %}
                 </div>
+
+                <!-- Natural Remedies -->
+                {% if result.remedies %}
+                <div class="remedies-card mt-4">
+                  <h6>🌿 Natural Health Recommendations</h6>
+                  <div class="remedy-severity severity-{{ result.remedies.severity }}">
+                    <p class="mb-3"><strong>{{ result.remedies.message }}</strong></p>
+                    <div class="remedies-list">
+                      {% for remedy in result.remedies.remedies %}
+                        <div class="remedy-item">
+                          <span class="remedy-text">{{ remedy }}</span>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    {% if result.remedies.severity != 'none' %}
+                    <div class="medical-disclaimer mt-3">
+                      <small class="text-muted">
+                        <strong>⚠️ Important:</strong> These natural remedies are supportive measures only. 
+                        Always consult with healthcare professionals for proper medical diagnosis and treatment.
+                      </small>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
               </div>
             </div>
           </div>
@@ -349,6 +374,112 @@
   border-radius: 10px;
   padding: 1.5rem;
   border-left: 4px solid #667eea;
+}
+
+.remedies-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 4px solid #28a745;
+}
+
+.remedy-severity {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.severity-none {
+  background: #d1edff;
+  border: 1px solid #0ea5e9;
+}
+
+.severity-mild {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+}
+
+.severity-moderate {
+  background: #fed7aa;
+  border: 1px solid #ea580c;
+}
+
+.severity-severe {
+  background: #fecaca;
+  border: 1px solid #dc2626;
+}
+
+.remedies-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.remedy-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  border-left: 3px solid #28a745;
+  transition: all 0.3s ease;
+}
+
+.remedy-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(5px);
+}
+
+.remedy-text {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.medical-disclaimer {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 3px solid #dc3545;
+}
+
+/* Dark mode styles for remedies */
+[data-theme="dark"] .remedies-card {
+  background: var(--card-bg);
+  border-color: #28a745;
+}
+
+[data-theme="dark"] .remedy-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #28a745;
+}
+
+[data-theme="dark"] .remedy-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .medical-disclaimer {
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #dc3545;
+}
+
+[data-theme="dark"] .severity-none {
+  background: rgba(14, 165, 233, 0.2);
+  border-color: #0ea5e9;
+}
+
+[data-theme="dark"] .severity-mild {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+}
+
+[data-theme="dark"] .severity-moderate {
+  background: rgba(234, 88, 12, 0.2);
+  border-color: #ea580c;
+}
+
+[data-theme="dark"] .severity-severe {
+  background: rgba(220, 38, 38, 0.2);
+  border-color: #dc2626;
 }
 
 .btn-lg {
