@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}Prediction History - Pneumonia Detection{% endblock %}
+{% block content %}
+
+<div class="content px-4">
+<div class="row justify-content-center">
+    <div class="col-lg-12">
+    
+    <!-- Header -->
+    <div class="history-header text-center mb-5">
+        <h2 class="display-5 mb-3">
+        📊 Prediction History
+        </h2>
+        <p class="lead text-muted">
+        View and download your pneumonia detection analysis history
+        </p>
+    </div>
+
+    <!-- Export Options -->
+    <div class="export-section mb-5">
+        <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h5 class="mb-4">
+            <i class="fas fa-download"></i> Export Options
+            </h5>
+            <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="export-option">
+                <h6>📄 JSON Format</h6>
+                <p class="text-muted mb-3">Complete data with all details including remedies</p>
+                <a href="/api/predictions/export/json" class="btn btn-primary" download>
+                    <i class="fas fa-file-code"></i> Download JSON
+                </a>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="export-option">
+                <h6>📊 CSV Format</h6>
+                <p class="text-muted mb-3">Spreadsheet-friendly format for analysis</p>
+                <a href="/api/predictions/export/csv" class="btn btn-success" download>
+                    <i class="fas fa-file-excel"></i> Download CSV
+                </a>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- History Table -->
+    <div class="history-section">
+        <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h5 class="mb-4">
+            <i class="fas fa-history"></i> Recent Predictions
+            </h5>
+            
+            <!-- Loading indicator -->
+            <div id="loadingIndicator" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading prediction history...</p>
+            </div>
+
+            <!-- History table -->
+            <div id="historyTable" class="d-none">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th>Date & Time</th>
+                    <th>Image</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                    <th>Processing Time</th>
+                    <th>Remedies</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <nav aria-label="History pagination" class="mt-4">
+                <ul class="pagination justify-content-center" id="historyPagination">
+                <!-- Pagination will be populated by JavaScript -->
+                </ul>
+            </nav>
+            </div>
+
+            <!-- No data message -->
+            <div id="noDataMessage" class="text-center py-4 d-none">
+            <div class="text-muted">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <h5>No Predictions Yet</h5>
+                <p>Start by uploading an X-ray image for analysis.</p>
+                <a href="/predictions" class="btn btn-primary">
+                <i class="fas fa-upload"></i> Upload Image
+                </a>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPage = 1;
+    const perPage = 10;
+    
+    function loadHistory(page = 1) {
+        fetch(`/api/predictions/history?page=${page}&per_page=${perPage}`)
+            .then(response => response.json())
+            .then(data => {
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                const historyTable = document.getElementById('historyTable');
+                const noDataMessage = document.getElementById('noDataMessage');
+                const tableBody = document.getElementById('historyTableBody');
+                
+                loadingIndicator.classList.add('d-none');
+                
+                if (data.predictions && data.predictions.length > 0) {
+                    historyTable.classList.remove('d-none');
+                    noDataMessage.classList.add('d-none');
+                    
+                    // Populate table
+                    tableBody.innerHTML = '';
+                    data.predictions.forEach(prediction => {
+                        const row = document.createElement('tr');
+                        
+                        const date = new Date(prediction.timestamp).toLocaleString();
+                        const imageName = prediction.image_path ? prediction.image_path.split('/').pop() : 'N/A';
+                        const predictionClass = prediction.prediction === 'PNEUMONIA' ? 'text-danger' : 'text-success';
+                        const confidence = (prediction.confidence * 100).toFixed(1) + '%';
+                        const processingTime = prediction.processing_time ? prediction.processing_time.toFixed(3) + 's' : 'N/A';
+                        const remediesSeverity = prediction.remedies && prediction.remedies.severity ? prediction.remedies.severity : 'N/A';
+                        
+                        row.innerHTML = `
+                            <td>
+                                <small class="text-muted">${date}</small>
+                            </td>
+                            <td>
+                                <small class="text-truncate" style="max-width: 150px; display: inline-block;" title="${imageName}">
+                                    ${imageName}
+                                </small>
+                            </td>
+                            <td>
+                                <span class="badge ${prediction.prediction === 'PNEUMONIA' ? 'bg-danger' : 'bg-success'}">
+                                    ${prediction.prediction}
+                                </span>
+                            </td>
+                            <td>
+                                <strong class="${predictionClass}">${confidence}</strong>
+                            </td>
+                            <td>
+                                <small class="text-muted">${processingTime}</small>
+                            </td>
+                            <td>
+                                <small class="text-muted">${remediesSeverity}</small>
+                            </td>
+                        `;
+                        
+                        tableBody.appendChild(row);
+                    });
+                    
+                    // Update pagination
+                    updatePagination(data.page, data.total_pages);
+                } else {
+                    historyTable.classList.add('d-none');
+                    noDataMessage.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading history:', error);
+                document.getElementById('loadingIndicator').classList.add('d-none');
+                document.getElementById('noDataMessage').classList.remove('d-none');
+            });
+    }
+    
+    function updatePagination(currentPage, totalPages) {
+        const pagination = document.getElementById('historyPagination');
+        pagination.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        // Previous button
+        const prevLi = document.createElement('li');
+        prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+        prevLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>`;
+        pagination.appendChild(prevLi);
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const pageLi = document.createElement('li');
+            pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            pageLi.innerHTML = `<a class="page-link" href="#" data-page="${i}">${i}</a>`;
+            pagination.appendChild(pageLi);
+        }
+        
+        // Next button
+        const nextLi = document.createElement('li');
+        nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
+        nextLi.innerHTML = `<a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>`;
+        pagination.appendChild(nextLi);
+        
+        // Add click handlers
+        pagination.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('page-link') && !e.target.parentElement.classList.contains('disabled')) {
+                const page = parseInt(e.target.dataset.page);
+                if (page && page !== currentPage) {
+                    loadHistory(page);
+                }
+            }
+        });
+    }
+    
+    // Load initial history
+    loadHistory(1);
+});
+</script>
+
+{% endblock %}

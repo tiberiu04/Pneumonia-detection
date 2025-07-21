@@ -6,12 +6,16 @@ import numpy as np
 import cv2
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
 from werkzeug.utils import secure_filename
 import json
 from functools import wraps
 import time
+import threading
+from cryptography.fernet import Fernet
+import base64
+import hashlib
 
 # Configure logging
 logging.basicConfig(
@@ -58,17 +62,204 @@ MODEL_METRICS = {
     'test_samples': 624
 }
 
+# Settings Management
+class SettingsManager:
+    def __init__(self):
+        self.settings_file = 'static/logs/user_settings.json'
+        self.encryption_key = self._get_or_create_encryption_key()
+        self.cipher = Fernet(self.encryption_key)
+        
+    def _get_or_create_encryption_key(self):
+        key_file = 'static/logs/encryption.key'
+        if os.path.exists(key_file):
+            with open(key_file, 'rb') as f:
+                return f.read()
+        else:
+            key = Fernet.generate_key()
+            with open(key_file, 'wb') as f:
+                f.write(key)
+            return key
+    
+    def get_user_settings(self, user_id=None):
+        if user_id is None:
+            user_id = session.get('user_id', 'anonymous')
+            
+        default_settings = {
+            'enableSoundAlerts': True,
+            'enableEmailNotifications': False,
+            'enableProgressUpdates': True,
+            'enableAutoSave': True,
+            'enableDataEncryption': True,
+            'enableAutoDelete': True,
+            'enableAnalytics': False,
+            'enableSessionLogging': False,
+            'enableNaturalRemedies': True,
+            'email': '',
+            'confidenceThreshold': 0.5
+        }
+        
+        try:
+            if os.path.exists(self.settings_file):
+                with open(self.settings_file, 'r') as f:
+                    all_settings = json.load(f)
+                    user_settings = all_settings.get(user_id, default_settings)
+                    # Merge with defaults to ensure all keys exist
+                    for key, value in default_settings.items():
+                        if key not in user_settings:
+                            user_settings[key] = value
+                    return user_settings
+        except Exception as e:
+            logger.error(f"Error loading settings: {e}")
+            
+        return default_settings
+    
+    def save_user_settings(self, settings, user_id=None):
+        if user_id is None:
+            user_id = session.get('user_id', 'anonymous')
+            
+        try:
+            all_settings = {}
+            if os.path.exists(self.settings_file):
+                with open(self.settings_file, 'r') as f:
+                    all_settings = json.load(f)
+            
+            all_settings[user_id] = settings
+            
+            with open(self.settings_file, 'w') as f:
+                json.dump(all_settings, f, indent=2)
+                
+            return True
+        except Exception as e:
+            logger.error(f"Error saving settings: {e}")
+            return False
+    
+    def encrypt_file(self, file_path):
+        try:
+            with open(file_path, 'rb') as f:
+                file_data = f.read()
+            
+            encrypted_data = self.cipher.encrypt(file_data)
+            encrypted_path = file_path + '.encrypted'
+            
+            with open(encrypted_path, 'wb') as f:
+                f.write(encrypted_data)
+                
+            return encrypted_path
+        except Exception as e:
+            logger.error(f"Error encrypting file: {e}")
+            return None
+    
+    def decrypt_file(self, encrypted_path):
+        try:
+            with open(encrypted_path, 'rb') as f:
+                encrypted_data = f.read()
+            
+            decrypted_data = self.cipher.decrypt(encrypted_data)
+            original_path = encrypted_path.replace('.encrypted', '')
+            
+            with open(original_path, 'wb') as f:
+                f.write(decrypted_data)
+                
+            return original_path
+        except Exception as e:
+            logger.error(f"Error decrypting file: {e}")
+            return None
+
+# Initialize settings manager
+settings_manager = SettingsManager()
+
+# Session management
+def init_session():
+    if 'user_id' not in session:
+        session['user_id'] = str(uuid.uuid4())
+        session['session_start'] = datetime.now().isoformat()
+    
+    # Log session activity if enabled
+    user_settings = settings_manager.get_user_settings()
+    if user_settings.get('enableSessionLogging', False):
+        log_session_activity('session_init', {
+            'user_id': session['user_id'],
+            'timestamp': datetime.now().isoformat(),
+            'ip_address': request.remote_addr,
+            'user_agent': request.headers.get('User-Agent', '')
+        })
+
+def log_session_activity(action, data):
+    try:
+        log_entry = {
+            'action': action,
+            'data': data,
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        with open('static/logs/session_activity.json', 'a') as f:
+            f.write(json.dumps(log_entry) + '\n')
+    except Exception as e:
+        logger.error(f"Error logging session activity: {e}")
+
+# Email notification system
+def send_email_notification(to_email, subject, body):
+    try:
+        # Configure with your email settings
+        smtp_server = os.environ.get('SMTP_SERVER', 'smtp.gmail.com')
+        smtp_port = int(os.environ.get('SMTP_PORT', '587'))
+        smtp_username = os.environ.get('SMTP_USERNAME', '')
+        smtp_password = os.environ.get('SMTP_PASSWORD', '')
+        
+        if not all([smtp_username, smtp_password]):
+            logger.warning("Email credentials not configured")
+            return False
+        
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = smtp_username
+        msg['To'] = to_email
+        msg.set_content(body)
+        
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(smtp_username, smtp_password)
+            server.send_message(msg)
+            
+        return True
+    except Exception as e:
+        logger.error(f"Error sending email: {e}")
+        return False
+
+def send_analysis_completion_email(user_email, prediction_result):
+    subject = "🩺 Pneumonia Analysis Complete"
+    
+    body = f"""
+    Your chest X-ray analysis has been completed.
+    
+    Results:
+    - Prediction: {prediction_result['prediction']}
+    - Confidence: {prediction_result['confidence']:.1%}
+    - Processing Time: {prediction_result['processing_time']:.2f} seconds
+    
+    Please log in to view detailed results and recommendations.
+    
+    Best regards,
+    Pneumonia AI Team
+    """
+    
+    return send_email_notification(user_email, subject, body)
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def log_prediction(image_path, prediction, confidence, processing_time):
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def log_prediction(image_path, prediction, confidence, processing_time, remedies = None):
     log_entry = {
         'timestamp': datetime.now().isoformat(),
         'image_path': image_path,
         'prediction': prediction,
         'confidence': confidence,
         'processing_time': processing_time,
-        'model_version': '1.0'
+        'model_version': '1.0',
+        'remedies': remedies
     }
     
     try:
@@ -250,7 +441,8 @@ def predictions():
                 result = {
                     'prediction': prediction_result['prediction'],
                     'confidence': prediction_result['confidence'],
-                    'processing_time': prediction_result['processing_time']
+                    'processing_time': prediction_result['processing_time'],
+                    'remedies': prediction_result['remedies']
                 }
                 uploaded_image = filepath
                 
@@ -323,13 +515,115 @@ def health_check():
 
 @app.route("/api/metrics")
 def get_metrics():
-    """Get model performance metrics"""
     return jsonify(MODEL_METRICS)
+ 
+@app.route("/api/predictions/export/<format>")
+def export_predictions(format):
+    try:
+        predictions = []
+        # Read predictions from log file
+        if os.path.exists('static/logs/predictions.json'):
+            with open('static/logs/predictions.json', 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            predictions.append(json.loads(line.strip()))
+                        except json.JSONDecodeError:
+                            continue
+        
+        if format.lower() == 'json':
+            from flask import make_response
+            response = make_response(json.dumps(predictions, indent=2))
+            response.headers['Content-Type'] = 'application/json'
+            response.headers['Content-Disposition'] = f'attachment; filename=predictions_history_{datetime.now().strftime("%Y%m%d_%H%M%S")}.json'
+            return response
+            
+        elif format.lower() == 'csv':
+            import csv
+            import io
+            from flask import make_response
+            
+            output = io.StringIO()
+            if predictions:
+                # Flatten the data for CSV
+                flattened_predictions = []
+                for pred in predictions:
+                    flattened = {
+                        'timestamp': pred.get('timestamp', ''),
+                        'image_path': pred.get('image_path', ''),
+                        'prediction': pred.get('prediction', ''),
+                        'confidence': pred.get('confidence', ''),
+                        'processing_time': pred.get('processing_time', ''),
+                        'model_version': pred.get('model_version', ''),
+                        'remedies_severity': pred.get('remedies', {}).get('severity', '') if pred.get('remedies') else '',
+                        'remedies_message': pred.get('remedies', {}).get('message', '') if pred.get('remedies') else '',
+                        'remedies_count': len(pred.get('remedies', {}).get('remedies', [])) if pred.get('remedies') else 0
+                    }
+                    flattened_predictions.append(flattened)
+                
+                fieldnames = flattened_predictions[0].keys()
+                writer = csv.DictWriter(output, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(flattened_predictions)
+            
+            response = make_response(output.getvalue())
+            response.headers['Content-Type'] = 'text/csv'
+            response.headers['Content-Disposition'] = f'attachment; filename=predictions_history_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            return response
+            
+        else:
+            return jsonify({'error': 'Invalid format. Use json or csv'}), 400
+            
+    except Exception as e:
+        logger.error(f"Export error: {str(e)}")
+        return jsonify({'error': 'Failed to export predictions'}), 500
+
+@app.route("/api/predictions/history")
+def get_prediction_history():
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        
+        predictions = []
+        
+        # Read predictions from log file
+        if os.path.exists('static/logs/predictions.json'):
+            with open('static/logs/predictions.json', 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            predictions.append(json.loads(line.strip()))
+                        except json.JSONDecodeError:
+                            continue
+        
+        # Sort by timestamp (newest first)
+        predictions.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+        
+        # Pagination
+        start = (page - 1) * per_page
+        end = start + per_page
+        paginated_predictions = predictions[start:end]
+        
+        return jsonify({
+            'predictions': paginated_predictions,
+            'total': len(predictions),
+            'page': page,
+            'per_page': per_page,
+            'total_pages': (len(predictions) + per_page - 1) // per_page
+        })
+        
+    except Exception as e:
+        logger.error(f"History error: {str(e)}")
+        return jsonify({'error': 'Failed to get prediction history'}), 500
 
 @app.route("/settings")
 def settings():
     return render_template("settings.html", metrics=MODEL_METRICS)
-
+ 
+@app.route("/history")
+def history():
+    return render_template("history.html", metrics=MODEL_METRICS)
+ 
 @app.route("/about")
 def about():
     return render_template("about.html")
