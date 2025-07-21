@@ -256,3 +256,9 @@
 2025-07-18 21:03:54,721 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "GET /static/uploads/a8754b44-09ac-404f-8ed2-8377e22fb642_person1_virus_9.jpeg HTTP/1.1" 200 -
 2025-07-18 21:03:54,722 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
 2025-07-18 21:03:54,828 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 21:03:54] "[36mGET /static/favicon.ico HTTP/1.1[0m" 304 -
+2025-07-18 18:10:13,070 - app - INFO - Model loaded successfully
+2025-07-18 18:10:31,060 - app - INFO - Model loaded successfully
+2025-07-18 18:26:23,620 - app - INFO - Model loaded successfully
+2025-07-18 18:26:23,625 - app - WARNING - Email credentials not configured
+2025-07-18 18:26:23,626 - app - INFO - Image auto-deleted: /tmp/tmpby53957x
+2025-07-18 18:38:34,904 - app - INFO - Model loaded successfully

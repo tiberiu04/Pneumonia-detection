@@ -136,7 +136,7 @@
                 </div>
 
                 <!-- Natural Remedies -->
-                {% if result.remedies %}
+                {% if result.remedies and settings.enableNaturalRemedies %}
                 <div class="remedies-card mt-4">
                   <h6>🌿 Natural Health Recommendations</h6>
                   <div class="remedy-severity severity-{{ result.remedies.severity }}">
@@ -603,8 +603,80 @@ document.addEventListener('DOMContentLoaded', function() {
       
       if (progress >= 100) {
         clearInterval(interval);
+        
+        // Play completion sound if enabled
+        const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
+        if (settings.enableSoundAlerts) {
+          playNotificationSound('success');
+        }
       }
     }, 100);
+  }
+  
+  // Sound notification system
+  function playNotificationSound(type) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Different sounds for different types
+      if (type === 'success') {
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+      } else if (type === 'error') {
+        oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime + 0.1);
+      } else {
+        oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
+      }
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (error) {
+      console.log('Sound notification not supported:', error);
+    }
+  }
+  
+  // Enhanced progress updates
+  function showDetailedProgress() {
+    const settings = JSON.parse(localStorage.getItem('pneumoniaAISettings') || '{}');
+    if (!settings.enableProgressUpdates) return;
+    
+    const progressSection = document.getElementById('progressSection');
+    const steps = document.querySelectorAll('.step');
+    
+    if (progressSection && steps.length > 0) {
+      progressSection.classList.remove('d-none');
+      
+      // Detailed step descriptions
+      const stepDescriptions = [
+        'Uploading and validating image format...',
+        'Preprocessing image: resizing and normalizing...',
+        'Running AI analysis through neural network...',
+        'Generating results and natural remedies...'
+      ];
+      
+      steps.forEach((step, index) => {
+        if (stepDescriptions[index]) {
+          step.textContent = stepDescriptions[index];
+        }
+      });
+    }
+  }
+  
+  // Show detailed progress if enabled
+  const uploadForm = document.getElementById('uploadForm');
+  if (uploadForm) {
+    uploadForm.addEventListener('submit', function() {
+      showDetailedProgress();
+    });
   }
 });
 </script>
